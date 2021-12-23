@@ -12,10 +12,26 @@ class HomeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+       
+        
+        
     }
+    var selectedDate:Date = Date()
+    
+    
+    @IBAction func calendarBtn(_ sender: UIButton) {
+        let pickerController = CalendarPickerViewController(
+          baseDate: Date(),
+          selectedDateChanged: { [weak self] date in
+          guard let self = self else { return }
 
+              self.selectedDate = date
 
+          })
+
+        present(pickerController, animated: true, completion: nil)
+    }
+    
     @IBAction func captureLifeBtn(_ sender: AnyObject) {
        
         VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
@@ -46,6 +62,9 @@ extension HomeVC: UIImagePickerControllerDelegate {
       title: title,
       message: message,
       preferredStyle: .alert)
+    
+    alert.view.layoutIfNeeded() // to make it faster to load
+      
     alert.addAction(UIAlertAction(title: "OK",
                                   style: .cancel,
                                   handler: nil))
@@ -57,5 +76,7 @@ extension HomeVC: UIImagePickerControllerDelegate {
 extension HomeVC: UINavigationControllerDelegate {
   
 }
+
+
 
 

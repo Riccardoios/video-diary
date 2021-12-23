@@ -17,23 +17,85 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UW-IV-wPM">
-                                <rect key="frame" x="146" y="433" width="103" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Capture Life"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SZq-Wg-Nza">
+                                <rect key="frame" x="69.5" y="106" width="275" height="146"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="LIFE">
+                                        <attributes>
+                                            <font key="NSFont" size="130" name="ArialMT"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k7N-9E-aBB">
+                                <rect key="frame" x="70" y="271" width="274" height="49.5"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="IN SECONDS">
+                                        <attributes>
+                                            <font key="NSFont" size="44" name="Arial-BoldMT"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UW-IV-wPM">
+                                <rect key="frame" x="165" y="437.5" width="84" height="30"/>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Capture Life"/>
                                 <connections>
                                     <action selector="captureLifeBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5VL-6e-Seq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hti-99-f10">
+                                <rect key="frame" x="149.5" y="513.5" width="115" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Your Calendar"/>
+                                <connections>
+                                    <action selector="calendarBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="byr-nb-12z"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uMv-OJ-52N">
+                                <rect key="frame" x="150.5" y="584.5" width="113" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Make a Movie"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="SZq-Wg-Nza" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ANJ-k2-eyg"/>
+                            <constraint firstItem="uMv-OJ-52N" firstAttribute="top" secondItem="hti-99-f10" secondAttribute="bottom" constant="40" id="LMB-1X-HMZ"/>
+                            <constraint firstItem="1UW-IV-wPM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SVL-1h-zci"/>
+                            <constraint firstItem="uMv-OJ-52N" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VOF-9w-cSB"/>
+                            <constraint firstItem="1UW-IV-wPM" firstAttribute="top" secondItem="k7N-9E-aBB" secondAttribute="bottom" constant="117" id="Zkj-pa-YM9"/>
+                            <constraint firstItem="k7N-9E-aBB" firstAttribute="top" secondItem="SZq-Wg-Nza" secondAttribute="bottom" constant="19" id="lCs-32-bLI"/>
+                            <constraint firstItem="hti-99-f10" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lTN-sB-mDz"/>
+                            <constraint firstItem="SZq-Wg-Nza" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="62" id="pqg-KT-wrV"/>
+                            <constraint firstItem="hti-99-f10" firstAttribute="top" secondItem="1UW-IV-wPM" secondAttribute="bottom" constant="46" id="q2i-ZR-aYP"/>
+                            <constraint firstItem="k7N-9E-aBB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="yvU-g5-mml"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="71" y="78"/>
+        </scene>
+        <!--Calendar Picker View Controller-->
+        <scene sceneID="Lsu-9v-d3L">
+            <objects>
+                <viewController id="54p-mP-YSl" customClass="CalendarPickerViewController" customModule="Life_in_Seconds" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Anv-Zr-nHc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="VFi-dg-AMV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ieB-TV-qRC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="810" y="82"/>
         </scene>
     </scenes>
     <resources>

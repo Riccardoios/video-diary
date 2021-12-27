@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A1F9AA02778AC56007C218F /* CalCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F9A9F2778AC55007C218F /* CalCollectionVC.swift */; };
+		3A1F9AA52778B6FD007C218F /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F9AA42778B6FD007C218F /* CollectionViewCell.swift */; };
 		3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A327736AD000DCE4D5 /* AppDelegate.swift */; };
 		3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */; };
 		3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A727736AD000DCE4D5 /* HomeVC.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A1F9A9F2778AC55007C218F /* CalCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalCollectionVC.swift; sourceTree = "<group>"; };
+		3A1F9AA42778B6FD007C218F /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		3A7129A027736AD000DCE4D5 /* Life in Seconds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life in Seconds.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A7129A327736AD000DCE4D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,7 +77,9 @@
 				3A7129A327736AD000DCE4D5 /* AppDelegate.swift */,
 				3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */,
 				3A7129A727736AD000DCE4D5 /* HomeVC.swift */,
+				3A1F9A9F2778AC55007C218F /* CalCollectionVC.swift */,
 				3A7129A927736AD000DCE4D5 /* Main.storyboard */,
+				3A1F9AA42778B6FD007C218F /* CollectionViewCell.swift */,
 				3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */,
 				3A7129BB2774D7EB00DCE4D5 /* CalendarPicker */,
 				3A7129C42774D7F800DCE4D5 /* Models */,
@@ -177,9 +183,11 @@
 			files = (
 				3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */,
 				3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */,
+				3A1F9AA52778B6FD007C218F /* CollectionViewCell.swift in Sources */,
 				3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */,
 				3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */,
 				3A7129C12774D7EB00DCE4D5 /* CalendarPickerViewController.swift in Sources */,
+				3A1F9AA02778AC56007C218F /* CalCollectionVC.swift in Sources */,
 				3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */,
 				3A7129C22774D7EB00DCE4D5 /* CalendarDateCollectionViewCell.swift in Sources */,
 				3A7129C92774D7F800DCE4D5 /* Day.swift in Sources */,

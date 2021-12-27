@@ -14,19 +14,18 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
        
         
-        
     }
-    var selectedDate:Date = Date()
+    
+    var selectedDate : ((Date) -> Void)
     
     
     @IBAction func calendarBtn(_ sender: UIButton) {
         let pickerController = CalendarPickerViewController(
-          baseDate: Date(),
-          selectedDateChanged: { [weak self] date in
+          
+          selectedDate: { [weak self] date in
           guard let self = self else { return }
 
-              self.selectedDate = date
-
+         
           })
 
         present(pickerController, animated: true, completion: nil)

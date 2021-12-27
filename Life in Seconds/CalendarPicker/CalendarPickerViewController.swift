@@ -151,6 +151,7 @@ class CalendarPickerViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        headerView.baseDate = baseDate
         
     }
     

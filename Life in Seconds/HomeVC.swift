@@ -16,19 +16,21 @@ class HomeVC: UIViewController {
         
     }
     
-    var selectedDate : ((Date) -> Void)
+    var selectedDate : Date = Date()
     
     
     @IBAction func calendarBtn(_ sender: UIButton) {
         let pickerController = CalendarPickerViewController(
           
-          selectedDate: { [weak self] date in
+            baseDate: Date(), selectedDateChanged:  { [weak self] date in
           guard let self = self else { return }
-
+              
+              self.selectedDate = date
          
           })
 
         present(pickerController, animated: true, completion: nil)
+  
     }
     
     @IBAction func captureLifeBtn(_ sender: AnyObject) {

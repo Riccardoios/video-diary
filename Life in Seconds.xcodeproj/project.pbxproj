@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A1F9AA02778AC56007C218F /* CalCollectionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F9A9F2778AC55007C218F /* CalCollectionVC.swift */; };
-		3A1F9AA52778B6FD007C218F /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F9AA42778B6FD007C218F /* CollectionCell.swift */; };
 		3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A327736AD000DCE4D5 /* AppDelegate.swift */; };
 		3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */; };
 		3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A727736AD000DCE4D5 /* HomeVC.swift */; };
@@ -17,16 +15,13 @@
 		3A7129B027736AD300DCE4D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3A7129AE27736AD300DCE4D5 /* LaunchScreen.storyboard */; };
 		3A7129B827736C9C00DCE4D5 /* VideoHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */; };
 		3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */; };
-		3A7129C12774D7EB00DCE4D5 /* CalendarPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BD2774D7EB00DCE4D5 /* CalendarPickerViewController.swift */; };
-		3A7129C22774D7EB00DCE4D5 /* CalendarDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BE2774D7EB00DCE4D5 /* CalendarDateCollectionViewCell.swift */; };
 		3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */; };
 		3A7129C92774D7F800DCE4D5 /* Day.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129C62774D7F800DCE4D5 /* Day.swift */; };
 		3A7129CA2774D7F800DCE4D5 /* MonthMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129C72774D7F800DCE4D5 /* MonthMetadata.swift */; };
+		3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AD5FC277B25ED005E4BEA /* MyCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3A1F9A9F2778AC55007C218F /* CalCollectionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalCollectionVC.swift; sourceTree = "<group>"; };
-		3A1F9AA42778B6FD007C218F /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
 		3A7129A027736AD000DCE4D5 /* Life in Seconds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life in Seconds.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A7129A327736AD000DCE4D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,11 +32,10 @@
 		3A7129B127736AD300DCE4D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoHelper.swift; sourceTree = "<group>"; };
 		3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerFooterView.swift; sourceTree = "<group>"; };
-		3A7129BD2774D7EB00DCE4D5 /* CalendarPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerViewController.swift; sourceTree = "<group>"; };
-		3A7129BE2774D7EB00DCE4D5 /* CalendarDateCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerHeaderView.swift; sourceTree = "<group>"; };
 		3A7129C62774D7F800DCE4D5 /* Day.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Day.swift; sourceTree = "<group>"; };
 		3A7129C72774D7F800DCE4D5 /* MonthMetadata.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthMetadata.swift; sourceTree = "<group>"; };
+		3A8AD5FC277B25ED005E4BEA /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A604D8227806084006BE8DD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3A7129BB2774D7EB00DCE4D5 /* CollectionStuff */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		3A71299727736AD000DCE4D5 = {
 			isa = PBXGroup;
 			children = (
@@ -77,11 +79,9 @@
 				3A7129A327736AD000DCE4D5 /* AppDelegate.swift */,
 				3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */,
 				3A7129A727736AD000DCE4D5 /* HomeVC.swift */,
-				3A1F9A9F2778AC55007C218F /* CalCollectionVC.swift */,
 				3A7129A927736AD000DCE4D5 /* Main.storyboard */,
-				3A1F9AA42778B6FD007C218F /* CollectionCell.swift */,
 				3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */,
-				3A7129BB2774D7EB00DCE4D5 /* CalendarPicker */,
+				3A604D8227806084006BE8DD /* Views */,
 				3A7129C42774D7F800DCE4D5 /* Models */,
 				3A7129AC27736AD300DCE4D5 /* Assets.xcassets */,
 				3A7129AE27736AD300DCE4D5 /* LaunchScreen.storyboard */,
@@ -90,15 +90,14 @@
 			path = "Life in Seconds";
 			sourceTree = "<group>";
 		};
-		3A7129BB2774D7EB00DCE4D5 /* CalendarPicker */ = {
+		3A7129BB2774D7EB00DCE4D5 /* CollectionStuff */ = {
 			isa = PBXGroup;
 			children = (
-				3A7129BD2774D7EB00DCE4D5 /* CalendarPickerViewController.swift */,
+				3A8AD5FC277B25ED005E4BEA /* MyCell.swift */,
 				3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */,
-				3A7129BE2774D7EB00DCE4D5 /* CalendarDateCollectionViewCell.swift */,
 				3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */,
 			);
-			path = CalendarPicker;
+			path = CollectionStuff;
 			sourceTree = "<group>";
 		};
 		3A7129C42774D7F800DCE4D5 /* Models */ = {
@@ -183,13 +182,10 @@
 			files = (
 				3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */,
 				3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */,
-				3A1F9AA52778B6FD007C218F /* CollectionCell.swift in Sources */,
+				3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */,
 				3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */,
 				3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */,
-				3A7129C12774D7EB00DCE4D5 /* CalendarPickerViewController.swift in Sources */,
-				3A1F9AA02778AC56007C218F /* CalCollectionVC.swift in Sources */,
 				3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */,
-				3A7129C22774D7EB00DCE4D5 /* CalendarDateCollectionViewCell.swift in Sources */,
 				3A7129C92774D7F800DCE4D5 /* Day.swift in Sources */,
 				3A7129B827736C9C00DCE4D5 /* VideoHelper.swift in Sources */,
 				3A7129CA2774D7F800DCE4D5 /* MonthMetadata.swift in Sources */,

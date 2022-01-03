@@ -43,9 +43,12 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
             ) ?? self.baseDate
             
             self.arrayDayCell = [DayCell]()
+            self.selectedIndexPath = nil
             self.getCurrentMonthArray(of: self.baseDate)
             self.getImageInArrayDayCell()
             self.addOffsetPreviuosMonth()
+            
+            self.headerView.baseDate = self.baseDate
             
             self.collectionView.reloadData()
             
@@ -60,12 +63,22 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
             ) ?? self.baseDate
             
             self.arrayDayCell = [DayCell]()
+            self.selectedIndexPath = nil
+            
             self.getCurrentMonthArray(of: self.baseDate)
             self.getImageInArrayDayCell()
             self.addOffsetPreviuosMonth()
             
+            self.headerView.baseDate = self.baseDate
+            
             self.collectionView.reloadData()
         })
+    
+    private lazy var headerView = CalendarPickerHeaderView { [weak self] in
+      guard let self = self else { return }
+
+      self.dismiss(animated: true)
+    }
     
     
     //MARK: - VIEWDIDLOAD
@@ -73,11 +86,11 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         
         super.viewDidLoad()
        
-//        view.addSubview(headerView)
+        view.addSubview(headerView)
         view.addSubview(footerView)
         
-//        headerView.backgroundColor = .red
-//        headerView.baseDate = baseDate
+        headerView.backgroundColor = .red
+        headerView.baseDate = baseDate
        
         
         getCurrentMonthArray(of: baseDate)
@@ -99,11 +112,11 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: (55.3 * 7) + 4 + sectionInsets.top ),
             
-//            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-//            headerView.heightAnchor.constraint(equalToConstant: 110),
-//
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 110),
+
             footerView.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
             footerView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),

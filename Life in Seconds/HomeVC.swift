@@ -17,67 +17,55 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
     
     private var itemsPerRow: CGFloat = 7
     
-//    var dayInMonth = Array(1...31)
+    let calendar = Calendar.current
     
-    private var baseDate: Date = Date() {
-        didSet {
-            days = generateDaysInMonth(for: baseDate)
-            myCollectionView.reloadData()
-            
-            self.headerView.monthLabel.text = monthYearFormatter.string(from: baseDate)
-            
-        }
-        
-        
-    }
+    var selectedIndexPath: IndexPath?
     
-    private let calendar: Calendar = Calendar(identifier: .gregorian)
+    var baseDate: Date = Date()
     
-    private lazy var days = generateDaysInMonth(for: baseDate)
-    
-    private lazy var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d"
-        return dateFormatter
-    }()
-    
-    private lazy var monthYearFormatter: DateFormatter = {
-      let dateFormatter = DateFormatter()
-      dateFormatter.calendar = Calendar(identifier: .gregorian)
-      dateFormatter.locale = Locale.autoupdatingCurrent
-      dateFormatter.setLocalizedDateFormatFromTemplate("MMMM y")
-      return dateFormatter
-    }()
-    
-    private var selectedDate: Date = Date()
-    // MARK: - SUBVIEWS
-    private lazy var headerView = CalendarPickerHeaderView { [weak self] in
-      guard let self = self else { return }
+    //objects
+    var arrayMyData: [MyData] = [
+        MyData(image: UIImage(systemName: "circle")!, date: Calendar.current.date(byAdding: .day, value: +1, to: Date())!),
+        MyData(image: UIImage(systemName: "square")!, date: Calendar.current.date(byAdding: .day, value: +4, to: Date())!)
+    ]
 
-      self.dismiss(animated: true)
-    }
+    var arrayDayCell: [DayCell] = [DayCell]()
+    
     
     private lazy var footerView = CalendarPickerFooterView(
         didTapLastMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
-            
+
             self.baseDate = self.calendar.date(
                 byAdding: .month,
                 value: -1,
                 to: self.baseDate
             ) ?? self.baseDate
+            
+            self.arrayDayCell = [DayCell]()
+            self.getCurrentMonthArray(of: self.baseDate)
+            self.getImageInArrayDayCell()
+            self.addOffsetPreviuosMonth()
+            
+            self.collectionView.reloadData()
+            
         },
         didTapNextMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
-            
+
             self.baseDate = self.calendar.date(
                 byAdding: .month,
                 value: 1,
                 to: self.baseDate
             ) ?? self.baseDate
+            
+            self.arrayDayCell = [DayCell]()
+            self.getCurrentMonthArray(of: self.baseDate)
+            self.getImageInArrayDayCell()
+            self.addOffsetPreviuosMonth()
+            
+            self.collectionView.reloadData()
         })
-    
-    
     
     
     //MARK: - VIEWDIDLOAD
@@ -85,33 +73,40 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         
         super.viewDidLoad()
        
-        view.addSubview(headerView)
+//        view.addSubview(headerView)
         view.addSubview(footerView)
         
-        headerView.backgroundColor = .red
-        headerView.baseDate = baseDate
+//        headerView.backgroundColor = .red
+//        headerView.baseDate = baseDate
+       
         
-        myCollectionView.backgroundColor = .green
+        getCurrentMonthArray(of: baseDate)
+        getImageInArrayDayCell()
+        addOffsetPreviuosMonth()
+//        getTodaySelected()
+        collectionView.reloadData()
         
-        myCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .green
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         var constraints:[NSLayoutConstraint] = []
         
         constraints.append(contentsOf: [
             
-            myCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            myCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            myCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            myCollectionView.heightAnchor.constraint(equalToConstant: (55.3 * 7) + 4 + sectionInsets.top ),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: (55.3 * 7) + 4 + sectionInsets.top ),
             
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.topAnchor.constraint(equalTo: view.topAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 110),
-            
-            footerView.leadingAnchor.constraint(equalTo: myCollectionView.leadingAnchor),
-            footerView.trailingAnchor.constraint(equalTo: myCollectionView.trailingAnchor),
-            footerView.topAnchor.constraint(equalTo: myCollectionView.bottomAnchor),
+//            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            headerView.topAnchor.constraint(equalTo: view.topAnchor),
+//            headerView.heightAnchor.constraint(equalToConstant: 110),
+//
+            footerView.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
+            footerView.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+            footerView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             footerView.heightAnchor.constraint(equalToConstant: 80),
             
         ])
@@ -119,19 +114,21 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         NSLayoutConstraint.activate(constraints)
         
         
-        myCollectionView.dataSource = self
-        myCollectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         
     }
     
-    @IBOutlet weak var myCollectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
     
     
     @IBAction func captureLifeBtn(_ sender: AnyObject) {
-        DispatchQueue.main.async {
-            VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
-        }
+        collectionView.reloadData()
+        
+//        DispatchQueue.main.async {
+//            VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
+//        }
     }
     
 }
@@ -189,7 +186,7 @@ extension HomeVC: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return days.count
+        return arrayDayCell.count
         
     }
 
@@ -199,14 +196,15 @@ extension HomeVC: UICollectionViewDataSource {
         cell.backgroundColor = UIColor.blue.withAlphaComponent(0.3)
 //        cell.layer.borderColor = UIColor.gray.cgColor
 //        cell.layer.borderWidth = 1.0
-        let day = days[indexPath.row]
-        cell.label.text = day.number
+        let day = arrayDayCell[indexPath.row].day
+        cell.label.text = day
         
-        if day.number == "5" && headerView.monthLabel.text == "December 2021"{
-            cell.label.backgroundColor = .yellow
-            
+        
+        if indexPath == selectedIndexPath {
+            cell.label.textColor = .red
+        } else {
+            cell.label.textColor = .black
         }
-        // Configure the cell
     
         return cell
     }
@@ -255,107 +253,144 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print (days[indexPath.row].number + " was selected")
+
         
+        var reloadIndexPaths = [indexPath]
+        
+        if let deselectIndexPath = selectedIndexPath {
+            reloadIndexPaths.append(deselectIndexPath)
+        }
+        
+        selectedIndexPath = indexPath
+        
+        // reloadItems works with multiple indexpath so if you have 2 indexes it will reload them both
+        
+        collectionView.reloadItems(at: reloadIndexPaths)
+
     }
     
     
 }
 
-// MARK: - CALENDAR DATA GENERATING
+// MARK: - CALENDAR DATA GENERATION
 extension HomeVC {
     
-    func monthMetadata(for baseDate: Date) throws -> MonthMetadata {
-        guard
-            let numberOfDaysInMonth = calendar.range(
-                of: .day,
-                in: .month,
-                for: baseDate)?.count,
-            let firstDayOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: baseDate))
-        else {
-            throw CalendarDataError.metadataGeneration
-        }
-        
-        let firstDayWeekday = calendar.component(.weekday, from: firstDayOfMonth)
-        
-        return MonthMetadata(
-            numberOfDays: numberOfDaysInMonth,
-            firstDay: firstDayOfMonth,
-            firstDayWeekday: firstDayWeekday)
-        
-    }
-    
-    enum CalendarDataError: Error {
-        case metadataGeneration
-    }
-    
-    
-    func generateDaysInMonth(for baseDate: Date) -> [Day] {
-        guard let metadata = try? monthMetadata(for: baseDate) else {
-            fatalError("an Error has occured when generating the metadata for base date")
-        }
-        
-        let numberOfdaysInaMonth = metadata.numberOfDays
-        let offsetInInitialRow = metadata.firstDayWeekday
-        let firstDayOfMonth = metadata.firstDay
-        
-        var days: [Day] = (1..<(numberOfdaysInaMonth + offsetInInitialRow)).map { day in
-            let isWithinDisplayedMonth = day >= offsetInInitialRow
-            let dayOffset = isWithinDisplayedMonth ? day - offsetInInitialRow : -(offsetInInitialRow - day)
-            return generateDay(
-                offsetBy: dayOffset,
-                for: firstDayOfMonth,
-                isWithinDisplayedMonth: isWithinDisplayedMonth)
-        }
-        
-        days += generateStartOfNextMonth(using: firstDayOfMonth)
-        
-        return days
-    }
-    
-    func generateDay(offsetBy dayOffset: Int, for baseDate: Date, isWithinDisplayedMonth: Bool) -> Day {
-        
-        let date = calendar.date(byAdding: .day, value: dayOffset, to: baseDate)
-        ?? baseDate
-        
-        return Day(
-            date: date,
-            number: dateFormatter.string(from: date),
-            isSelected: calendar.isDate(date, inSameDayAs: selectedDate),
-            isWithinDisplayedMonth: isWithinDisplayedMonth
-        )
-        
-    }
-    
-    // 1
-    func generateStartOfNextMonth(using firstDayOfDisplayedMonth: Date) -> [Day] {
-        // 2
-        guard
-            let lastDayInMonth = calendar.date(
-                byAdding: DateComponents(month: 1, day: -1),
-                to: firstDayOfDisplayedMonth)
-        else {
-            return []
-        }
-        
-        // 3
-        let additionalDays = 7 - calendar.component(.weekday, from: lastDayInMonth)
-        guard additionalDays > 0 else {
-            return []
-        }
-        
-        // 4
-        let days: [Day] = (1...additionalDays)
-            .map {
-                generateDay(
-                    offsetBy: $0,
-                    for: lastDayInMonth,
-                    isWithinDisplayedMonth: false)
+        func getCurrentMonthArray(of dateInput: Date) {
+            
+            func startOfDay(_ date: Date) -> Date {
+                return calendar.startOfDay(for: date)
             }
-        
-        return days
-    }
 
+            func endOfDay(_ date: Date) -> Date {
+                let sD = startOfDay(date)
+                return calendar.date(bySettingHour: 23, minute: 59, second: 59, of: sD)!
+            }
+            
+           //get number of days in the month
+            guard
+
+            let numberOfDaysInMonth = calendar.range(
+              of: .day,
+              in: .month,
+              for: dateInput)?.count,
+
+            let firstDayOfMonth = calendar.date(
+              from: calendar.dateComponents([.year, .month], from: dateInput))
+
+            else {
+                fatalError("calendar generation fatal error")
+            }
+            for i in 0..<numberOfDaysInMonth {
+                
+                let nextDate = calendar.date(byAdding: .day, value: i, to: firstDayOfMonth)!
+                
+                let element = DayCell(date: nextDate, image: nil)
+                
+
+                arrayDayCell.append(element)
+            }
+
+        }
+
+        func getImageInArrayDayCell() {
+            for x in 0..<arrayDayCell.count {
+                let date1 = arrayDayCell[x].date
+                
+                for y in 0..<arrayMyData.count {
+                    let date2 = arrayMyData[y].date
+                    
+                    let order = Calendar.current.compare(date1, to: date2, toGranularity: .day)
+                    
+                    switch order {
+                    case .orderedSame:
+                        arrayDayCell[x].image = arrayMyData[y].image
+                    default: break
+                    }
+                }
+            }
+        }
+
+        func getTodaySelected() {
+            let today = Date()
+
+            let dF = DateFormatter()
+
+            dF.dateFormat = "dd"
+            let day = dF.string(from: today)
+
+            dF.dateFormat = "MMMM"
+            let month = dF.string(from: today)
+
+            dF.dateFormat = "yyyy"
+            let year = dF.string(from: today)
+
+
+            if
+            arrayDayCell.isEmpty == false &&
+                arrayDayCell[0].year == year &&
+                arrayDayCell[0].month == month &&
+                arrayDayCell[(Int(day)!-1)].day == day {
+                
+                //find the index where
+//                let rightIndex: IndexPath = IndexPath(row: (Int(day)!-1)+additionalDays, section: 0)
+//
+//                selectedIndexPath = rightIndex
+//                collectionView.reloadItems(at: [rightIndex])
+            }
+            
+            
+            
+
+        }
+
+
+        func addOffsetPreviuosMonth() {
+            guard !arrayDayCell.isEmpty else {return}
+            
+            let dateInput = arrayDayCell.first!.date
+            
+            let firstDayOfMonth = calendar.date(
+              from: calendar.dateComponents([.year, .month], from: dateInput))
+            
+            let additionalDays = calendar.component(.weekday, from: firstDayOfMonth!) - 1
+            // S M T W T F S
+            // 0 1 2 3 4 5 6
+            
+            // get one month less and the last day
+            if additionalDays >= 1 {
+                
+                for i in 1...additionalDays {
+                    let datesPreviuosMonth = calendar.date(byAdding: .day, value: -(i), to: dateInput)!
+                    var dayCell = DayCell(date: datesPreviuosMonth, image: nil)
+                    dayCell.isGrayedout = true
+                    
+                    arrayDayCell.insert(dayCell, at: 0)
+                }
+            }
+           
+        }
+    
+    
 }
 
 

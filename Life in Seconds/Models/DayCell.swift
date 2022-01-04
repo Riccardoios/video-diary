@@ -25,6 +25,7 @@ struct DayCell {
         let dF = DateFormatter()
         
         dF.dateFormat = "dd"
+        dF.timeZone = TimeZone(abbreviation: "GMT+0:00")
         self.day = dF.string(from: date)
         
         dF.dateFormat = "MMMM"

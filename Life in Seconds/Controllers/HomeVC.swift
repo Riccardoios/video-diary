@@ -7,6 +7,8 @@
 
 import UIKit
 import MobileCoreServices
+import Photos
+import MediaPlayer
 
 private let reuseIdentifier = "MyCell123"
 
@@ -17,17 +19,20 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
     
     private var itemsPerRow: CGFloat = 7
     
-    let calendar = Calendar.current
+    let calendar = Calendar(identifier: .gregorian)
     
     var selectedIndexPath: IndexPath?
     
     var baseDate: Date = Date()
     
     //objects
-    var arrayMyData: [MyData] = [
-        MyData(image: UIImage(systemName: "circle")!, date: Calendar.current.date(byAdding: .day, value: +1, to: Date())!),
-        MyData(image: UIImage(systemName: "square")!, date: Calendar.current.date(byAdding: .day, value: +4, to: Date())!)
-    ]
+    let dataManager = DataManager()
+    
+//    var arrayMyData: [MyData] = [
+//        MyData(image: UIImage(named: "lala")!, date: Calendar.current.date(byAdding: .day, value: +1, to: Date())!),
+//        MyData(image: UIImage(named: "lala")!, date: Calendar.current.date(byAdding: .day, value: +4, to: Date())!)
+//    ]
+//    var arrayMyData: [MyData] = [MyData]()
 
     var arrayDayCell: [DayCell] = [DayCell]()
     
@@ -35,7 +40,8 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
     private lazy var footerView = CalendarPickerFooterView(
         didTapLastMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
-
+            
+            
             self.baseDate = self.calendar.date(
                 byAdding: .month,
                 value: -1,
@@ -89,7 +95,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         view.addSubview(headerView)
         view.addSubview(footerView)
         
-        headerView.backgroundColor = .red
+//        headerView.backgroundColor = .red
         headerView.baseDate = baseDate
        
         
@@ -99,7 +105,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
 //        getTodaySelected()
         collectionView.reloadData()
         
-        collectionView.backgroundColor = .green
+//        collectionView.backgroundColor = .green
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -144,42 +150,20 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
 //        }
     }
     
+    
+    @IBAction func addVideoBtn(_ sender: UIButton) {
+        
+        if savedPhotosAvailable() {
+
+          VideoHelper.startMediaBrowser(delegate: self, sourceType: .savedPhotosAlbum)
+        }
+        
+    }
+    
+    
 }
 
-//MARK: UIImagePickerControllerDelegate
-extension HomeVC: UIImagePickerControllerDelegate {
-  
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    dismiss(animated: true, completion: nil)
-  
-    guard
-      let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String, mediaType == (kUTTypeMovie as String),
-      let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
-      UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
-    else {return }
-    
-    UISaveVideoAtPathToSavedPhotosAlbum(url.path, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
-            
-  }
-  
-  @objc func video(_ videoPath: String, didFinishSavingWithError error: Error?, contextInfo info: AnyObject) {
-    let title = (error == nil) ? "Success" : "Error"
-    let message = (error == nil) ? "Video was saved" : "Video failed to save"
-    
-    let alert = UIAlertController(
-      title: title,
-      message: message,
-      preferredStyle: .alert)
-    
-    alert.view.layoutIfNeeded() // to make it faster to load
-      
-    alert.addAction(UIAlertAction(title: "OK",
-                                  style: .cancel,
-                                  handler: nil))
-    present(alert, animated: true, completion: nil)
-  }
-  
-}
+
 // MARK: - UINavigationControllerDelegate
 
 extension HomeVC: UINavigationControllerDelegate {
@@ -207,16 +191,27 @@ extension HomeVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyCell
     
         cell.backgroundColor = UIColor.blue.withAlphaComponent(0.3)
-//        cell.layer.borderColor = UIColor.gray.cgColor
-//        cell.layer.borderWidth = 1.0
+
+        cell.layer.cornerRadius = 10.0
+        
         let day = arrayDayCell[indexPath.row].day
         cell.label.text = day
         
         
-        if indexPath == selectedIndexPath {
-            cell.label.textColor = .red
+        if let img: UIImage = arrayDayCell[indexPath.row].image {
+            cell.imageView.image = img
+            cell.label.backgroundColor = .gray
         } else {
-            cell.label.textColor = .black
+            cell.imageView.image = nil
+            cell.label.backgroundColor = nil
+        }
+        
+        if indexPath == selectedIndexPath {
+            cell.layer.borderWidth = 2.0
+            cell.layer.borderColor = UIColor.red.cgColor
+        } else {
+            cell.layer.borderWidth = 0.5
+            cell.layer.borderColor = UIColor.black.cgColor
         }
     
         return cell
@@ -274,10 +269,13 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
             reloadIndexPaths.append(deselectIndexPath)
         }
         
+        baseDate = arrayDayCell[indexPath.row].date
+        
         selectedIndexPath = indexPath
         
         // reloadItems works with multiple indexpath so if you have 2 indexes it will reload them both
-        
+        print("basedate",baseDate)
+        print ("img", arrayDayCell[indexPath.row].image)
         collectionView.reloadItems(at: reloadIndexPaths)
 
     }
@@ -288,16 +286,18 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
 // MARK: - CALENDAR DATA GENERATION
 extension HomeVC {
     
-        func getCurrentMonthArray(of dateInput: Date) {
+        func loadTheData() {
             
-            func startOfDay(_ date: Date) -> Date {
-                return calendar.startOfDay(for: date)
-            }
-
-            func endOfDay(_ date: Date) -> Date {
-                let sD = startOfDay(date)
-                return calendar.date(bySettingHour: 23, minute: 59, second: 59, of: sD)!
-            }
+            arrayDayCell = [DayCell]()
+            
+            getCurrentMonthArray(of: baseDate)
+            getImageInArrayDayCell()
+            addOffsetPreviuosMonth()
+    //        getTodaySelected()
+            collectionView.reloadData()
+        }
+    
+        func getCurrentMonthArray(of dateInput: Date) {
             
            //get number of days in the month
             guard
@@ -313,12 +313,11 @@ extension HomeVC {
             else {
                 fatalError("calendar generation fatal error")
             }
-            for i in 0..<numberOfDaysInMonth {
+            for i in 0...numberOfDaysInMonth {
                 
                 let nextDate = calendar.date(byAdding: .day, value: i, to: firstDayOfMonth)!
                 
                 let element = DayCell(date: nextDate, image: nil)
-                
 
                 arrayDayCell.append(element)
             }
@@ -329,14 +328,16 @@ extension HomeVC {
             for x in 0..<arrayDayCell.count {
                 let date1 = arrayDayCell[x].date
                 
-                for y in 0..<arrayMyData.count {
-                    let date2 = arrayMyData[y].date
+                for y in 0..<dataManager.arrayMyData.count {
+                    let date2 = dataManager.arrayMyData[y].date
                     
                     let order = Calendar.current.compare(date1, to: date2, toGranularity: .day)
                     
                     switch order {
                     case .orderedSame:
-                        arrayDayCell[x].image = arrayMyData[y].image
+                        let url = dataManager.arrayMyData[y].urlVideo
+                        let image = self.dataManager.generateThumbnail(path: url)
+                        arrayDayCell[x].image = image
                     default: break
                     }
                 }
@@ -386,13 +387,15 @@ extension HomeVC {
               from: calendar.dateComponents([.year, .month], from: dateInput))
             
             let additionalDays = calendar.component(.weekday, from: firstDayOfMonth!) - 1
+            print (additionalDays, "additionalDays")
+            // we want to get this
             // S M T W T F S
             // 0 1 2 3 4 5 6
             
             // get one month less and the last day
             if additionalDays >= 1 {
                 
-                for i in 1...additionalDays {
+                for i in 1..<additionalDays {
                     let datesPreviuosMonth = calendar.date(byAdding: .day, value: -(i), to: dateInput)!
                     var dayCell = DayCell(date: datesPreviuosMonth, image: nil)
                     dayCell.isGrayedout = true
@@ -407,3 +410,125 @@ extension HomeVC {
 }
 
 
+//MARK: - savedPhotosAvailable
+extension HomeVC {
+    
+    func savedPhotosAvailable() -> Bool {
+      guard !UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum)
+        else { return true }
+
+      let alert = UIAlertController(
+        title: "Not Available",
+        message: "No Saved Album found",
+        preferredStyle: .alert)
+      alert.addAction(UIAlertAction(
+        title: "OK",
+        style: UIAlertAction.Style.cancel,
+        handler: nil))
+      present(alert, animated: true, completion: nil)
+      return false
+    }
+}
+
+//MARK: - MyData Generation
+extension HomeVC {
+    
+//    func generateThumbnail(path: URL) -> UIImage? {
+//        do {
+//            let asset = AVURLAsset(url: path, options: nil)
+//            let imgGenerator = AVAssetImageGenerator(asset: asset)
+//            imgGenerator.appliesPreferredTrackTransform = true
+//            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+//            let thumbnail = UIImage(cgImage: cgImage)
+//            return thumbnail
+//        } catch let error {
+//            print("*** Error generating thumbnail: \(error.localizedDescription)")
+//            return nil
+//        }
+//    }
+    
+}
+
+//MARK: UIImagePickerControllerDelegate
+extension HomeVC: UIImagePickerControllerDelegate {
+  
+//  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+//    dismiss(animated: true, completion: nil)
+//
+//    guard
+//      let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String, mediaType == (kUTTypeMovie as String),
+//      let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+//      UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
+//    else {return }
+//
+//    UISaveVideoAtPathToSavedPhotosAlbum(url.path, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
+//
+//  }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+      dismiss(animated: true, completion: nil)
+
+      guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String,
+        mediaType == (kUTTypeMovie as String),
+        let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
+        else { return }
+
+      let avAsset = AVAsset(url: url)
+      var message = "yo"
+        
+        
+        if selectedIndexPath != nil {
+            
+            let thumbnail = dataManager.generateThumbnail(path: url)!
+            
+            dataManager.add(MyData(date: self.baseDate, urlVideo: url))
+            
+//            dataManager.arrayMyData.append(MyData(image: thumbnail, date: self.baseDate, urlVideo: url))
+            
+            loadTheData()
+        
+            
+        }
+//      if loadingAssetOne {
+//        message = "Video one loaded"
+//        firstAsset = avAsset
+//      } else {
+//        message = "Video two loaded"
+//        secondAsset = avAsset
+//      }
+      let alert = UIAlertController(
+        title: "Asset Loaded",
+        message: message,
+        preferredStyle: .alert)
+      alert.addAction(UIAlertAction(
+        title: "OK",
+        style: UIAlertAction.Style.cancel,
+        handler: nil))
+        
+        print ("dataManager.arrayMyData", dataManager.arrayMyData)
+      present(alert, animated: true, completion: nil)
+    }
+    
+    
+  
+  @objc func video(_ videoPath: String, didFinishSavingWithError error: Error?, contextInfo info: AnyObject) {
+    let title = (error == nil) ? "Success" : "Error"
+    let message = (error == nil) ? "Video was saved" : "Video failed to save"
+    
+    let alert = UIAlertController(
+      title: title,
+      message: message,
+      preferredStyle: .alert)
+    
+    alert.view.layoutIfNeeded() // to make it faster to load
+      
+    alert.addAction(UIAlertAction(title: "OK",
+                                  style: .cancel,
+                                  handler: nil))
+    present(alert, animated: true, completion: nil)
+  }
+  
+}

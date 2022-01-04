@@ -7,8 +7,15 @@
 
 import UIKit
 
-struct MyData {
-    var image: UIImage
+struct MyData: Codable {
+    
     var date: Date
-    var urlVideo: URL = URL(string: "lala")!
+    var urlVideo: URL
+    
+    init(date: Date, urlVideo: URL) {
+        self.date = date
+        self.urlVideo = urlVideo
+    }
+    
+    
 }

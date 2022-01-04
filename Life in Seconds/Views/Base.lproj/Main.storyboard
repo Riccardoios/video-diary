@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -13,11 +15,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="HomeVC" customModule="Life_in_Seconds" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1UW-IV-wPM">
-                                <rect key="frame" x="258" y="410" width="84" height="30"/>
+                                <rect key="frame" x="165" y="672" width="84" height="30"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" title="Capture Life"/>
                                 <connections>
@@ -25,7 +27,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="eT3-wO-s72">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="230"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="526"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="MHH-Bs-ICE">
@@ -42,29 +44,49 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ZY-fD-t1l">
-                                                    <rect key="frame" x="43" y="53.5" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lala" translatesAutoresizingMaskIntoConstraints="NO" id="RkR-fs-0wk">
+                                                    <rect key="frame" x="14" y="14" width="100" height="100"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="S0S-2y-eBb"/>
+                                                        <constraint firstAttribute="height" constant="100" id="ewL-1U-o02"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ZY-fD-t1l">
+                                                    <rect key="frame" x="40" y="52" width="48" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="RkR-fs-0wk" firstAttribute="centerX" secondItem="bfO-Bd-WFF" secondAttribute="centerX" id="5pd-zF-tJO"/>
                                                 <constraint firstItem="0ZY-fD-t1l" firstAttribute="centerY" secondItem="bfO-Bd-WFF" secondAttribute="centerY" id="Kbp-eg-tDN"/>
                                                 <constraint firstItem="0ZY-fD-t1l" firstAttribute="centerX" secondItem="bfO-Bd-WFF" secondAttribute="centerX" id="TAj-pg-wfu"/>
+                                                <constraint firstItem="RkR-fs-0wk" firstAttribute="centerY" secondItem="bfO-Bd-WFF" secondAttribute="centerY" id="tz4-qq-jXM"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="imageView" destination="RkR-fs-0wk" id="XoY-r2-z3f"/>
                                             <outlet property="label" destination="0ZY-fD-t1l" id="kMq-fw-0Ks"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giS-7B-3Ep" userLabel="Add Video">
+                                <rect key="frame" x="161.5" y="613" width="91" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Add Video"/>
+                                <connections>
+                                    <action selector="addVideoBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="FSX-FW-Dsa"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="1UW-IV-wPM" firstAttribute="top" secondItem="giS-7B-3Ep" secondAttribute="bottom" constant="28" id="Lb9-91-ol4"/>
                             <constraint firstItem="1UW-IV-wPM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SVL-1h-zci"/>
+                            <constraint firstItem="giS-7B-3Ep" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Spj-oI-fyh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="1UW-IV-wPM" secondAttribute="bottom" constant="160" id="bXZ-cz-Aph"/>
                         </constraints>
                     </view>
@@ -78,6 +100,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="lala" width="1668" height="2500"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

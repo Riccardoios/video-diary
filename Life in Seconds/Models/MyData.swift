@@ -6,15 +6,18 @@
 //
 
 import UIKit
+import AVFoundation
 
-struct MyData: Codable {
+struct MyData: Codable, Equatable, Identifiable {
     
+    var id: UUID
     var date: Date
-    var urlVideo: URL
+    var nameVideo: String
     
-    init(date: Date, urlVideo: URL) {
+    init(date: Date, nameVideo: String) {
+        self.id = UUID()
         self.date = date
-        self.urlVideo = urlVideo
+        self.nameVideo = nameVideo
     }
     
     

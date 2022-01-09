@@ -3,8 +3,8 @@
 import MobileCoreServices
 import UIKit
 
-enum VideoHelper {
-  static func startMediaBrowser(
+class VideoHelper: NSObject {
+   func startMediaBrowser(
     delegate: UIViewController & UINavigationControllerDelegate & UIImagePickerControllerDelegate,
     sourceType: UIImagePickerController.SourceType
   ) {
@@ -18,4 +18,5 @@ enum VideoHelper {
     mediaUI.delegate = delegate
     delegate.present(mediaUI, animated: true, completion: nil)
   }
+    
 }

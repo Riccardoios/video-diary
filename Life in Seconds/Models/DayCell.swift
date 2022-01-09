@@ -8,6 +8,7 @@
 import UIKit
 
 struct DayCell {
+    
     var date: Date
     var day: String
     var month: String

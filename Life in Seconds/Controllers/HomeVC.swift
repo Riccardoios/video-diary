@@ -7,13 +7,14 @@
 
 import UIKit
 import MobileCoreServices
-import Photos
+import PhotosUI
 import MediaPlayer
 
 private let reuseIdentifier = "MyCell123"
 
-class HomeVC: UIViewController, UICollectionViewDelegate {
-
+class HomeVC: UIViewController, UICollectionViewDelegate  {
+    
+  
     //MARK: - Calendar  and collection Properties
     private var sectionInsets = UIEdgeInsets(top: 70.0, left: 10.0, bottom: 0.0, right: 10.0)
     
@@ -26,16 +27,10 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
     var baseDate: Date = Date()
     
     //objects
-    let dataManager = DataManager()
-    
-//    var arrayMyData: [MyData] = [
-//        MyData(image: UIImage(named: "lala")!, date: Calendar.current.date(byAdding: .day, value: +1, to: Date())!),
-//        MyData(image: UIImage(named: "lala")!, date: Calendar.current.date(byAdding: .day, value: +4, to: Date())!)
-//    ]
-//    var arrayMyData: [MyData] = [MyData]()
+    let dataManager = MyDataManger()
+    let videoHelper = VideoHelper()
 
     var arrayDayCell: [DayCell] = [DayCell]()
-    
     
     private lazy var footerView = CalendarPickerFooterView(
         didTapLastMonthCompletionHandler: { [weak self] in
@@ -86,26 +81,20 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
       self.dismiss(animated: true)
     }
     
-    
     //MARK: - VIEWDIDLOAD
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-       
+        
         view.addSubview(headerView)
         view.addSubview(footerView)
         
-//        headerView.backgroundColor = .red
         headerView.baseDate = baseDate
-       
         
-        getCurrentMonthArray(of: baseDate)
-        getImageInArrayDayCell()
-        addOffsetPreviuosMonth()
-//        getTodaySelected()
-        collectionView.reloadData()
+        loadTheData()
         
-//        collectionView.backgroundColor = .green
+        print ("aaa" ,dataManager.arrayMyData.count)
+        
+        
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -143,8 +132,12 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
     
     
     @IBAction func captureLifeBtn(_ sender: AnyObject) {
-        collectionView.reloadData()
         
+//        let url = URL(string: "/Users/riccardocarlotto/Library/Developer/CoreSimulator/Devices/EB802C77-E362-4B7A-AB48-582405143485/data/Containers/Data/Application/F38CF026-E63F-48A4-9510-44350A1E28C5/Documents/trim.E7789D18-6BEE-4100-8FDB-5F45CADAD92D.MOV")!
+//
+//        let image = dataManager.generateThumbnail(url: url)
+//        print (image)
+       
 //        DispatchQueue.main.async {
 //            VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
 //        }
@@ -155,7 +148,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         
         if savedPhotosAvailable() {
 
-          VideoHelper.startMediaBrowser(delegate: self, sourceType: .savedPhotosAlbum)
+            videoHelper.startMediaBrowser(delegate: self, sourceType: .savedPhotosAlbum)
         }
         
     }
@@ -335,9 +328,16 @@ extension HomeVC {
                     
                     switch order {
                     case .orderedSame:
-                        let url = dataManager.arrayMyData[y].urlVideo
-                        let image = self.dataManager.generateThumbnail(path: url)
+//                        let url = dataManager.arrayMyData[y].urlVideo
+//                        let image = self.dataManager.generateThumbnail(path: url)
+//                        arrayDayCell[x].image = image
+                        let nameVideo = dataManager.arrayMyData[y].nameVideo
+                        
+                        let image =  self.dataManager.generateThumbnail(fromMovie: nameVideo)
                         arrayDayCell[x].image = image
+                        
+//                        loadTheData()
+                        
                     default: break
                     }
                 }
@@ -476,20 +476,18 @@ extension HomeVC: UIImagePickerControllerDelegate {
         let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
         else { return }
 
-      let avAsset = AVAsset(url: url)
+//      let avAsset = AVAsset(url: url)
       var message = "yo"
         
         
         if selectedIndexPath != nil {
             
-            let thumbnail = dataManager.generateThumbnail(path: url)!
+            //save video in file manager and the new url in the array
+            dataManager.saveVideoInDocuments(url: url, date: baseDate)
             
-            dataManager.add(MyData(date: self.baseDate, urlVideo: url))
             
-//            dataManager.arrayMyData.append(MyData(image: thumbnail, date: self.baseDate, urlVideo: url))
             
-            loadTheData()
-        
+            
             
         }
 //      if loadingAssetOne {
@@ -509,7 +507,7 @@ extension HomeVC: UIImagePickerControllerDelegate {
         handler: nil))
         
         print ("dataManager.arrayMyData", dataManager.arrayMyData)
-      present(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: loadTheData)
     }
     
     

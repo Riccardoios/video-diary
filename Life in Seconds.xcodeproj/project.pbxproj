@@ -19,7 +19,7 @@
 		3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */; };
 		3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */; };
 		3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AD5FC277B25ED005E4BEA /* MyCell.swift */; };
-		3AECCE992784795900924DEB /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AECCE982784795900924DEB /* DataManager.swift */; };
+		3AFC9B2E2789C9BC0066D8E5 /* MyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 		3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerFooterView.swift; sourceTree = "<group>"; };
 		3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerHeaderView.swift; sourceTree = "<group>"; };
 		3A8AD5FC277B25ED005E4BEA /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
-		3AECCE982784795900924DEB /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				3A7129A727736AD000DCE4D5 /* HomeVC.swift */,
-				3AECCE982784795900924DEB /* DataManager.swift */,
+				3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */,
 				3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */,
 			);
 			path = Controllers;
@@ -192,9 +192,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */,
-				3AECCE992784795900924DEB /* DataManager.swift in Sources */,
 				3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */,
 				3A604D84278087BC006BE8DD /* DayCell.swift in Sources */,
+				3AFC9B2E2789C9BC0066D8E5 /* MyDataManager.swift in Sources */,
 				3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */,
 				3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */,
 				3A604D86278087ED006BE8DD /* MyData.swift in Sources */,

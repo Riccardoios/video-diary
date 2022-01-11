@@ -11,6 +11,7 @@ struct DayCell {
     
     var date: Date
     var day: String
+    var weekDay: String
     var month: String
     var year: String
     var isSelected: Bool
@@ -24,10 +25,13 @@ struct DayCell {
         self.isGrayedout = false
         
         let dF = DateFormatter()
+        dF.timeZone = TimeZone(abbreviation: "GMT+0:00")
         
         dF.dateFormat = "dd"
-        dF.timeZone = TimeZone(abbreviation: "GMT+0:00")
-        self.day = dF.string(from: date)
+        self.day = dF.string(from: date) + " "
+        
+        let weekDay = dF.shortWeekdaySymbols[Calendar.current.component(.weekday, from: date) - 1]
+        self.weekDay = weekDay
         
         dF.dateFormat = "MMMM"
         self.month = dF.string(from: date)

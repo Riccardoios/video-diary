@@ -14,9 +14,9 @@ private let reuseIdentifier = "MyCell123"
 
 class HomeVC: UIViewController, UICollectionViewDelegate  {
     
-  
+    
     //MARK: - Calendar  and collection Properties
-    private var sectionInsets = UIEdgeInsets(top: 70.0, left: 10.0, bottom: 0.0, right: 10.0)
+    private var sectionInsets = UIEdgeInsets(top: 70.0, left: 10.0, bottom: 8.0, right: 10.0)
     
     private var itemsPerRow: CGFloat = 7
     
@@ -29,7 +29,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     //objects
     let dataManager = MyDataManger()
     let videoHelper = VideoHelper()
-
+    
     var arrayDayCell: [DayCell] = [DayCell]()
     
     private lazy var footerView = CalendarPickerFooterView(
@@ -47,7 +47,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
             self.selectedIndexPath = nil
             self.getCurrentMonthArray(of: self.baseDate)
             self.getImageInArrayDayCell()
-            self.addOffsetPreviuosMonth()
+//            self.addOffsetPreviuosMonth()
             
             self.headerView.baseDate = self.baseDate
             
@@ -56,7 +56,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
         },
         didTapNextMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
-
+            
             self.baseDate = self.calendar.date(
                 byAdding: .month,
                 value: 1,
@@ -68,22 +68,32 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
             
             self.getCurrentMonthArray(of: self.baseDate)
             self.getImageInArrayDayCell()
-            self.addOffsetPreviuosMonth()
+//            self.addOffsetPreviuosMonth()
             
             self.headerView.baseDate = self.baseDate
             
             self.collectionView.reloadData()
-        })
+        }
+    )
     
-    private lazy var headerView = CalendarPickerHeaderView { [weak self] in
-      guard let self = self else { return }
 
-      self.dismiss(animated: true)
+    
+    private lazy var headerView = CalendarPickerHeaderView {
+        [weak self] in
+        guard let self = self else { return }
+    } didTapMergeCompletitionHandler: {
+        [weak self] in
+            guard let self = self else {return}
+        print ("merge button pressed")
     }
+
     
     //MARK: - VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        dataManager.getMergedVideo()
         
         view.addSubview(headerView)
         view.addSubview(footerView)
@@ -105,17 +115,18 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: (55.3 * 7) + 4 + sectionInsets.top ),
+            //            collectionView.heightAnchor.constraint(equalToConstant: (55.3 * 7) + 4 + sectionInsets.top ),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130),
             
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerView.topAnchor.constraint(equalTo: view.topAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 110),
-
+            
             footerView.leadingAnchor.constraint(equalTo: collectionView.leadingAnchor),
             footerView.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
             footerView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            footerView.heightAnchor.constraint(equalToConstant: 80),
+            footerView.heightAnchor.constraint(equalToConstant: 50),
             
         ])
         
@@ -128,30 +139,39 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        AppUtility.lockOrientation(.portrait)
+        // Or to rotate and lock
+        // AppUtility.lockOrientation(.portrait, andRotateTo: .portrait)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Don't forget to reset when view is being removed
+        AppUtility.lockOrientation(.all)
+    }
+    
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     
     @IBAction func captureLifeBtn(_ sender: AnyObject) {
         
-//        let url = URL(string: "/Users/riccardocarlotto/Library/Developer/CoreSimulator/Devices/EB802C77-E362-4B7A-AB48-582405143485/data/Containers/Data/Application/F38CF026-E63F-48A4-9510-44350A1E28C5/Documents/trim.E7789D18-6BEE-4100-8FDB-5F45CADAD92D.MOV")!
-//
-//        let image = dataManager.generateThumbnail(url: url)
-//        print (image)
-       
-//        DispatchQueue.main.async {
-//            VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
-//        }
+        //        let url = URL(string: "/Users/riccardocarlotto/Library/Developer/CoreSimulator/Devices/EB802C77-E362-4B7A-AB48-582405143485/data/Containers/Data/Application/F38CF026-E63F-48A4-9510-44350A1E28C5/Documents/trim.E7789D18-6BEE-4100-8FDB-5F45CADAD92D.MOV")!
+        //
+        //        let image = dataManager.generateThumbnail(url: url)
+        //        print (image)
+        
+        //        DispatchQueue.main.async {
+        //            VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
+        //        }
     }
     
     
-    @IBAction func addVideoBtn(_ sender: UIButton) {
-        
-        if savedPhotosAvailable() {
-
-            videoHelper.startMediaBrowser(delegate: self, sourceType: .savedPhotosAlbum)
-        }
-        
-    }
     
     
 }
@@ -160,7 +180,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
 // MARK: - UINavigationControllerDelegate
 
 extension HomeVC: UINavigationControllerDelegate {
-  
+    
 }
 
 
@@ -172,31 +192,36 @@ extension HomeVC: UICollectionViewDataSource {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
         return arrayDayCell.count
         
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MyCell
-    
+        
         cell.backgroundColor = UIColor.blue.withAlphaComponent(0.3)
-
-        cell.layer.cornerRadius = 10.0
+        
+        cell.layer.cornerRadius = 15.0
         
         let day = arrayDayCell[indexPath.row].day
-        cell.label.text = day
+        cell.day.text = day
+        
+        let weekDay = arrayDayCell[indexPath.row].weekDay
+        cell.weekDay.text = weekDay
         
         
         if let img: UIImage = arrayDayCell[indexPath.row].image {
             cell.imageView.image = img
-            cell.label.backgroundColor = .gray
+            cell.day.textColor = .white
+            cell.weekDay.textColor = .white
         } else {
             cell.imageView.image = nil
-            cell.label.backgroundColor = nil
+            cell.day.textColor = nil
+            cell.weekDay.textColor = nil
         }
         
         if indexPath == selectedIndexPath {
@@ -206,7 +231,7 @@ extension HomeVC: UICollectionViewDataSource {
             cell.layer.borderWidth = 0.5
             cell.layer.borderColor = UIColor.black.cgColor
         }
-    
+        
         return cell
     }
 }
@@ -214,17 +239,17 @@ extension HomeVC: UICollectionViewDataSource {
 
 //MARK: - UICollectionViewDelegateFlowLayout
 extension HomeVC : UICollectionViewDelegateFlowLayout {
- 
+    
     // the size of the cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // here we need a calculation that guartee the size of the cells to be evenly placed in any screen otherwise simply return a Square CGSize
-//        let totalGapSizeInOneRow = sectionInsets.left * (itemsPerRow + 1)
-//        // the padding on the left four times ( because we have 7 cells so 8 gaps )
-//        let availableWidthForAllCells = view.frame.width - totalGapSizeInOneRow
-//        let widthPerCell = availableWidthForAllCells / itemsPerRow
+        //        let totalGapSizeInOneRow = sectionInsets.left * (itemsPerRow + 1)
+        //        // the padding on the left four times ( because we have 7 cells so 8 gaps )
+        //        let availableWidthForAllCells = view.frame.width - totalGapSizeInOneRow
+        //        let widthPerCell = availableWidthForAllCells / itemsPerRow
         
         // get the cell all touching each other
-        let width = collectionView.bounds.width/7.5
+        let width = collectionView.bounds.width/4.6
         let height = width
         
         
@@ -235,26 +260,20 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
-//
-//    //spacing from section to section
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//      return sectionInsets.left
-//    }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-//        return UIEdgeInsets.zero
-//    }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 8
     }
-
+    
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 8
     }
+    // minimum spacing between successive rows or columns of a section
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
         
         var reloadIndexPaths = [indexPath]
         
@@ -267,10 +286,48 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         selectedIndexPath = indexPath
         
         // reloadItems works with multiple indexpath so if you have 2 indexes it will reload them both
-        print("basedate",baseDate)
-        print ("img", arrayDayCell[indexPath.row].image)
+        
         collectionView.reloadItems(at: reloadIndexPaths)
-
+        
+        
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alertController.modalPresentationStyle = .popover
+        //        alertController.popoverPresentationController? = co
+        // to specify the position where the popover start which is in the camera button
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let cameraAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
+                
+                if self.savedPhotosAvailable() {
+                    
+                    self.videoHelper.startMediaBrowser(delegate: self, sourceType: .savedPhotosAlbum)
+                    
+                }
+                
+                //                let imagePicker = self.imagePicker(for: .camera)
+                //                imagePicker.allowsEditing = true
+                
+                //
+                //                self.present(imagePicker, animated: true, completion: nil)
+            }
+            alertController.addAction(cameraAction)
+        }
+        
+        let photoLibraryAction = UIAlertAction(title: "Camera", style: .default) { _ in
+            //            let imagePicker = self.imagePicker(for: .photoLibrary)
+            //            imagePicker.modalPresentationStyle = .popover
+            //            imagePicker.popoverPresentationController?.barButtonItem = sender
+            //            self.present(imagePicker, animated: true, completion: nil)
+        }
+        
+        alertController.addAction(photoLibraryAction)
+        
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true, completion: nil)
+        
     }
     
     
@@ -279,132 +336,132 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
 // MARK: - CALENDAR DATA GENERATION
 extension HomeVC {
     
-        func loadTheData() {
-            
-            arrayDayCell = [DayCell]()
-            
-            getCurrentMonthArray(of: baseDate)
-            getImageInArrayDayCell()
-            addOffsetPreviuosMonth()
-    //        getTodaySelected()
-            collectionView.reloadData()
-        }
+    func loadTheData() {
+        
+        arrayDayCell = [DayCell]()
+        
+        getCurrentMonthArray(of: baseDate)
+        getImageInArrayDayCell()
+        //addOffsetPreviuosMonth()
+        //getTodaySelected()
+        collectionView.reloadData()
+    }
     
-        func getCurrentMonthArray(of dateInput: Date) {
+    func getCurrentMonthArray(of dateInput: Date) {
+        
+        //get number of days in the month
+        guard
             
-           //get number of days in the month
-            guard
-
             let numberOfDaysInMonth = calendar.range(
-              of: .day,
-              in: .month,
-              for: dateInput)?.count,
-
-            let firstDayOfMonth = calendar.date(
-              from: calendar.dateComponents([.year, .month], from: dateInput))
-
-            else {
-                fatalError("calendar generation fatal error")
-            }
-            for i in 0...numberOfDaysInMonth {
+                of: .day,
+                in: .month,
+                for: dateInput)?.count,
+            
+                let firstDayOfMonth = calendar.date(
+                    from: calendar.dateComponents([.year, .month, .hour], from: dateInput))
                 
-                let nextDate = calendar.date(byAdding: .day, value: i, to: firstDayOfMonth)!
-                
-                let element = DayCell(date: nextDate, image: nil)
-
-                arrayDayCell.append(element)
-            }
-
+        else {
+            fatalError("calendar generation fatal error")
         }
-
-        func getImageInArrayDayCell() {
-            for x in 0..<arrayDayCell.count {
-                let date1 = arrayDayCell[x].date
+        for i in 0..<numberOfDaysInMonth {
+            
+            let nextDate = calendar.date(byAdding: .day, value: i, to: firstDayOfMonth)!
+            
+            let element = DayCell(date: nextDate, image: nil)
+            
+            arrayDayCell.append(element)
+        }
+        
+    }
+    
+    func getImageInArrayDayCell() {
+        for x in 0..<arrayDayCell.count {
+            let date1 = arrayDayCell[x].date
+            
+            for y in 0..<dataManager.arrayMyData.count {
+                let date2 = dataManager.arrayMyData[y].date
                 
-                for y in 0..<dataManager.arrayMyData.count {
-                    let date2 = dataManager.arrayMyData[y].date
+                let order = Calendar.current.compare(date1, to: date2, toGranularity: .day)
+                
+                switch order {
+                case .orderedSame:
+                    //                        let url = dataManager.arrayMyData[y].urlVideo
+                    //                        let image = self.dataManager.generateThumbnail(path: url)
+                    //                        arrayDayCell[x].image = image
+                    let nameVideo = dataManager.arrayMyData[y].nameVideo
                     
-                    let order = Calendar.current.compare(date1, to: date2, toGranularity: .day)
+                    let image =  self.dataManager.generateThumbnail(fromMovie: nameVideo)
+                    arrayDayCell[x].image = image
                     
-                    switch order {
-                    case .orderedSame:
-//                        let url = dataManager.arrayMyData[y].urlVideo
-//                        let image = self.dataManager.generateThumbnail(path: url)
-//                        arrayDayCell[x].image = image
-                        let nameVideo = dataManager.arrayMyData[y].nameVideo
-                        
-                        let image =  self.dataManager.generateThumbnail(fromMovie: nameVideo)
-                        arrayDayCell[x].image = image
-                        
-//                        loadTheData()
-                        
-                    default: break
-                    }
+                    //                        loadTheData()
+                    
+                default: break
                 }
             }
         }
-
-        func getTodaySelected() {
-            let today = Date()
-
-            let dF = DateFormatter()
-
-            dF.dateFormat = "dd"
-            let day = dF.string(from: today)
-
-            dF.dateFormat = "MMMM"
-            let month = dF.string(from: today)
-
-            dF.dateFormat = "yyyy"
-            let year = dF.string(from: today)
-
-
-            if
+    }
+    
+    func getTodaySelected() {
+        let today = Date()
+        
+        let dF = DateFormatter()
+        
+        dF.dateFormat = "dd"
+        let day = dF.string(from: today)
+        
+        dF.dateFormat = "MMMM"
+        let month = dF.string(from: today)
+        
+        dF.dateFormat = "yyyy"
+        let year = dF.string(from: today)
+        
+        
+        if
             arrayDayCell.isEmpty == false &&
                 arrayDayCell[0].year == year &&
                 arrayDayCell[0].month == month &&
                 arrayDayCell[(Int(day)!-1)].day == day {
-                
-                //find the index where
-//                let rightIndex: IndexPath = IndexPath(row: (Int(day)!-1)+additionalDays, section: 0)
+            
+            //find the index where
+            //                let rightIndex: IndexPath = IndexPath(row: (Int(day)!-1)+additionalDays, section: 0)
+            //
+            //                selectedIndexPath = rightIndex
+            //                collectionView.reloadItems(at: [rightIndex])
+        }
+        
+        
+        
+        
+    }
+    
+    
+//    func addOffsetPreviuosMonth() {
+//        guard !arrayDayCell.isEmpty else {return}
 //
-//                selectedIndexPath = rightIndex
-//                collectionView.reloadItems(at: [rightIndex])
-            }
-            
-            
-            
-
-        }
-
-
-        func addOffsetPreviuosMonth() {
-            guard !arrayDayCell.isEmpty else {return}
-            
-            let dateInput = arrayDayCell.first!.date
-            
-            let firstDayOfMonth = calendar.date(
-              from: calendar.dateComponents([.year, .month], from: dateInput))
-            
-            let additionalDays = calendar.component(.weekday, from: firstDayOfMonth!) - 1
-            print (additionalDays, "additionalDays")
-            // we want to get this
-            // S M T W T F S
-            // 0 1 2 3 4 5 6
-            
-            // get one month less and the last day
-            if additionalDays >= 1 {
-                
-                for i in 1..<additionalDays {
-                    let datesPreviuosMonth = calendar.date(byAdding: .day, value: -(i), to: dateInput)!
-                    var dayCell = DayCell(date: datesPreviuosMonth, image: nil)
-                    dayCell.isGrayedout = true
-                    
-                    arrayDayCell.insert(dayCell, at: 0)
-                }
-            }
-           
-        }
+//        let dateInput = arrayDayCell.first!.date
+//
+//        let firstDayOfMonth = calendar.date(
+//            from: calendar.dateComponents([.year, .month], from: dateInput))
+//
+//        let additionalDays = calendar.component(.weekday, from: firstDayOfMonth!) - 1
+//        print (additionalDays, "additionalDays")
+//        // we want to get this
+//        // S M T W T F S
+//        // 0 1 2 3 4 5 6
+//
+//        // get one month less and the last day
+//        if additionalDays >= 1 {
+//
+//            for i in 1..<additionalDays {
+//                let datesPreviuosMonth = calendar.date(byAdding: .day, value: -(i), to: dateInput)!
+//                var dayCell = DayCell(date: datesPreviuosMonth, image: nil)
+//                dayCell.isGrayedout = true
+//
+//                arrayDayCell.insert(dayCell, at: 0)
+//            }
+//        }
+//
+//    }
     
     
 }
@@ -414,70 +471,70 @@ extension HomeVC {
 extension HomeVC {
     
     func savedPhotosAvailable() -> Bool {
-      guard !UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum)
+        guard !UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum)
         else { return true }
-
-      let alert = UIAlertController(
-        title: "Not Available",
-        message: "No Saved Album found",
-        preferredStyle: .alert)
-      alert.addAction(UIAlertAction(
-        title: "OK",
-        style: UIAlertAction.Style.cancel,
-        handler: nil))
-      present(alert, animated: true, completion: nil)
-      return false
+        
+        let alert = UIAlertController(
+            title: "Not Available",
+            message: "No Saved Album found",
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+            title: "OK",
+            style: UIAlertAction.Style.cancel,
+            handler: nil))
+        present(alert, animated: true, completion: nil)
+        return false
     }
 }
 
 //MARK: - MyData Generation
 extension HomeVC {
     
-//    func generateThumbnail(path: URL) -> UIImage? {
-//        do {
-//            let asset = AVURLAsset(url: path, options: nil)
-//            let imgGenerator = AVAssetImageGenerator(asset: asset)
-//            imgGenerator.appliesPreferredTrackTransform = true
-//            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
-//            let thumbnail = UIImage(cgImage: cgImage)
-//            return thumbnail
-//        } catch let error {
-//            print("*** Error generating thumbnail: \(error.localizedDescription)")
-//            return nil
-//        }
-//    }
+    //    func generateThumbnail(path: URL) -> UIImage? {
+    //        do {
+    //            let asset = AVURLAsset(url: path, options: nil)
+    //            let imgGenerator = AVAssetImageGenerator(asset: asset)
+    //            imgGenerator.appliesPreferredTrackTransform = true
+    //            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
+    //            let thumbnail = UIImage(cgImage: cgImage)
+    //            return thumbnail
+    //        } catch let error {
+    //            print("*** Error generating thumbnail: \(error.localizedDescription)")
+    //            return nil
+    //        }
+    //    }
     
 }
 
 //MARK: UIImagePickerControllerDelegate
 extension HomeVC: UIImagePickerControllerDelegate {
-  
-//  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-//    dismiss(animated: true, completion: nil)
-//
-//    guard
-//      let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String, mediaType == (kUTTypeMovie as String),
-//      let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
-//      UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
-//    else {return }
-//
-//    UISaveVideoAtPathToSavedPhotosAlbum(url.path, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
-//
-//  }
+    
+    //  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    //    dismiss(animated: true, completion: nil)
+    //
+    //    guard
+    //      let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String, mediaType == (kUTTypeMovie as String),
+    //      let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
+    //      UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
+    //    else {return }
+    //
+    //    UISaveVideoAtPathToSavedPhotosAlbum(url.path, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
+    //
+    //  }
     
     
     func imagePickerController(_ picker: UIImagePickerController,
-      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
     ) {
-      dismiss(animated: true, completion: nil)
-
-      guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String,
-        mediaType == (kUTTypeMovie as String),
-        let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
+        dismiss(animated: true, completion: nil)
+        
+        guard let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String,
+              mediaType == (kUTTypeMovie as String),
+              let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL
         else { return }
-
-//      let avAsset = AVAsset(url: url)
-      var message = "yo"
+        
+        //      let avAsset = AVAsset(url: url)
+        var message = "yo"
         
         
         if selectedIndexPath != nil {
@@ -490,43 +547,43 @@ extension HomeVC: UIImagePickerControllerDelegate {
             
             
         }
-//      if loadingAssetOne {
-//        message = "Video one loaded"
-//        firstAsset = avAsset
-//      } else {
-//        message = "Video two loaded"
-//        secondAsset = avAsset
-//      }
-      let alert = UIAlertController(
-        title: "Asset Loaded",
-        message: message,
-        preferredStyle: .alert)
-      alert.addAction(UIAlertAction(
-        title: "OK",
-        style: UIAlertAction.Style.cancel,
-        handler: nil))
+        //      if loadingAssetOne {
+        //        message = "Video one loaded"
+        //        firstAsset = avAsset
+        //      } else {
+        //        message = "Video two loaded"
+        //        secondAsset = avAsset
+        //      }
+        let alert = UIAlertController(
+            title: "Asset Loaded",
+            message: message,
+            preferredStyle: .alert)
+        alert.addAction(UIAlertAction(
+            title: "OK",
+            style: UIAlertAction.Style.cancel,
+            handler: nil))
         
         print ("dataManager.arrayMyData", dataManager.arrayMyData)
-      present(alert, animated: true, completion: loadTheData)
+        present(alert, animated: true, completion: loadTheData)
     }
     
     
-  
-  @objc func video(_ videoPath: String, didFinishSavingWithError error: Error?, contextInfo info: AnyObject) {
-    let title = (error == nil) ? "Success" : "Error"
-    let message = (error == nil) ? "Video was saved" : "Video failed to save"
     
-    let alert = UIAlertController(
-      title: title,
-      message: message,
-      preferredStyle: .alert)
+    @objc func video(_ videoPath: String, didFinishSavingWithError error: Error?, contextInfo info: AnyObject) {
+        let title = (error == nil) ? "Success" : "Error"
+        let message = (error == nil) ? "Video was saved" : "Video failed to save"
+        
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert)
+        
+        alert.view.layoutIfNeeded() // to make it faster to load
+        
+        alert.addAction(UIAlertAction(title: "OK",
+                                      style: .cancel,
+                                      handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
     
-    alert.view.layoutIfNeeded() // to make it faster to load
-      
-    alert.addAction(UIAlertAction(title: "OK",
-                                  style: .cancel,
-                                  handler: nil))
-    present(alert, animated: true, completion: nil)
-  }
-  
 }

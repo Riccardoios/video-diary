@@ -19,6 +19,9 @@
 		3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */; };
 		3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */; };
 		3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A8AD5FC277B25ED005E4BEA /* MyCell.swift */; };
+		3A99F547278C6F140022817A /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99F546278C6F140022817A /* AppUtility.swift */; };
+		3A99F56D278DD5E90022817A /* MovieTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99F56C278DD5E90022817A /* MovieTableVC.swift */; };
+		3A99F56F278DDAF60022817A /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99F56E278DDAF60022817A /* TableCell.swift */; };
 		3AFC9B2E2789C9BC0066D8E5 /* MyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,9 @@
 		3A7129BC2774D7EB00DCE4D5 /* CalendarPickerFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerFooterView.swift; sourceTree = "<group>"; };
 		3A7129BF2774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPickerHeaderView.swift; sourceTree = "<group>"; };
 		3A8AD5FC277B25ED005E4BEA /* MyCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCell.swift; sourceTree = "<group>"; };
+		3A99F546278C6F140022817A /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
+		3A99F56C278DD5E90022817A /* MovieTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableVC.swift; sourceTree = "<group>"; };
+		3A99F56E278DDAF60022817A /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
 		3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				3A7129A927736AD000DCE4D5 /* Main.storyboard */,
+				3A99F56E278DDAF60022817A /* TableCell.swift */,
 				3A7129BB2774D7EB00DCE4D5 /* CollectionStuff */,
 			);
 			path = Views;
@@ -114,8 +121,10 @@
 			isa = PBXGroup;
 			children = (
 				3A7129A727736AD000DCE4D5 /* HomeVC.swift */,
+				3A99F56C278DD5E90022817A /* MovieTableVC.swift */,
 				3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */,
 				3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */,
+				3A99F546278C6F140022817A /* AppUtility.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -194,12 +203,15 @@
 				3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */,
 				3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */,
 				3A604D84278087BC006BE8DD /* DayCell.swift in Sources */,
+				3A99F56F278DDAF60022817A /* TableCell.swift in Sources */,
+				3A99F547278C6F140022817A /* AppUtility.swift in Sources */,
 				3AFC9B2E2789C9BC0066D8E5 /* MyDataManager.swift in Sources */,
 				3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */,
 				3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */,
 				3A604D86278087ED006BE8DD /* MyData.swift in Sources */,
 				3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */,
 				3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */,
+				3A99F56D278DD5E90022817A /* MovieTableVC.swift in Sources */,
 				3A7129B827736C9C00DCE4D5 /* VideoHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,9 +364,15 @@
 				DEVELOPMENT_TEAM = 3339537SZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Life in Seconds/Info.plist";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Life in Seconds would like to access to your Media Library.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Life in Seconds would like to use your camera.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Life in Seconds would like to access your microphone.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Life in Seconds would like to access to your Photo Library.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This App would like to track you for support the business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -366,7 +384,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -380,9 +398,15 @@
 				DEVELOPMENT_TEAM = 3339537SZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Life in Seconds/Info.plist";
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "Life in Seconds would like to access to your Media Library.";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Life in Seconds would like to use your camera.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Life in Seconds would like to access your microphone.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Life in Seconds would like to access to your Photo Library.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This App would like to track you for support the business";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -394,7 +418,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

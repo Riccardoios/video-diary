@@ -13,19 +13,19 @@ let myFile_json = "myFile.json"
 class MyDataManger {
     
     
-private(set) var arrayMyData : [MyData] = []
+    private(set) var arrayMyData : [MyData] = []
+    
+    private(set) var arrMergedVideo : [URL] = []
     
     init() {
         loadArrayMyData()
-        print ("date", arrayMyData.first?.date)
-        print ("url", arrayMyData.first?.nameVideo)
+        getMergedVideo()
     }
     
     func nameFileURL(_ name: String) -> URL {
         // url is a location of a source for a file it could be local as well
         let fileManager = FileManager.default // this is the instance already available
-        let documentDirectories = fileManager.urls(for: .documentDirectory,
-                                                      in: .userDomainMask)
+        let documentDirectories = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
         // this method gets a directory that is on the disk .documentDirectory (not cache and is located in the computer or device .userDomainMask)
         // the return value is an array of Urls
         let myDocumentDirectory = documentDirectories.first!
@@ -33,6 +33,7 @@ private(set) var arrayMyData : [MyData] = []
         print("file path in documets: \(fileURL)")
         return fileURL
     }
+    
     
     
     func add(_ task: MyData) {
@@ -93,7 +94,6 @@ private(set) var arrayMyData : [MyData] = []
                 self.remove(MyData(date: date, nameVideo: nameMovieWithExtension))
                 self.add(MyData(date: date, nameVideo: nameMovieWithExtension))
                 
-                #warning("here we need code of replacement of old file url")
             }
         } catch {
             print ("error saving movie in documents \(error)")
@@ -103,9 +103,23 @@ private(set) var arrayMyData : [MyData] = []
         
     }
     
-    func generateThumbnail(fromMovie: String) -> UIImage? {
+    func generateThumbnail(fromMovie: String, orInMergedMovies: Bool = false, urlMergedVideo: String? = nil) -> UIImage? {
         
-        let url = nameFileURL(fromMovie)
+        let url: URL
+        
+        if orInMergedMovies == false {
+            url = nameFileURL(fromMovie)
+        } else {
+            
+            let fileManager = FileManager.default
+            let nameDir = nameFileURL("merged videos")
+            guard let urlMergedV = urlMergedVideo else {return nil}
+            let nameVideo = nameDir.appendingPathComponent(urlMergedV)
+            
+            url = nameVideo
+        }
+        
+        
         let asset = AVAsset(url: url)
         let imageGenerator = AVAssetImageGenerator(asset: asset)
         imageGenerator.appliesPreferredTrackTransform = true
@@ -118,6 +132,35 @@ private(set) var arrayMyData : [MyData] = []
         } catch {
             print ("error on generating Thumbnail \(error)")
             return nil
+        }
+        
+    }
+    
+    func getMergedVideo(){
+        
+        let fileManager = FileManager.default
+        let nameDir = nameFileURL("merged videos")
+        
+        do {
+            // guard directory already exist
+            if fileManager.fileExists(atPath: nameDir.path) {
+                
+                let videosStringsURL = try fileManager.contentsOfDirectory(atPath: nameDir.path)
+    
+                for i in videosStringsURL {
+                    let url = URL(string: i)!
+                    
+                    arrMergedVideo.append(url)
+                }
+                
+                
+            } else {
+                
+                try fileManager.createDirectory(at: nameDir, withIntermediateDirectories: true)
+            }
+            
+        } catch {
+            print (error)
         }
         
     }

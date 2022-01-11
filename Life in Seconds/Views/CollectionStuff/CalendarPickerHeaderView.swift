@@ -1,160 +1,122 @@
-/// Copyright (c) 2020 Razeware LLC
-/// 
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction, including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-/// copies of the Software, and to permit persons to whom the Software is
-/// furnished to do so, subject to the following conditions:
-/// 
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-/// 
-/// Notwithstanding the foregoing, you may not use, copy, modify, merge, publish,
-/// distribute, sublicense, create a derivative work, and/or sell copies of the
-/// Software in any work that is designed, intended, or marketed for pedagogical or
-/// instructional purposes related to programming, coding, application development,
-/// or information technology.  Permission for such use, copying, modification,
-/// merger, publication, distribution, sublicensing, creation of derivative works,
-/// or sale is expressly withheld.
-/// 
-/// This project and source code may use libraries or frameworks that are
-/// released under various Open-Source licenses. Use of those libraries and
-/// frameworks are governed by their own individual licenses.
-///
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-/// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
+
 
 import UIKit
 
 class CalendarPickerHeaderView: UIView {
-  lazy var monthLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.font = .systemFont(ofSize: 26, weight: .bold)
-    label.text = "Month"
-    label.accessibilityTraits = .header
-    label.isAccessibilityElement = true
-    return label
-  }()
-
-
-  lazy var dayOfWeekStackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-    stackView.distribution = .fillEqually
-    return stackView
-  }()
-
-  lazy var separatorView: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = UIColor.label.withAlphaComponent(0.2)
-    return view
-  }()
-
-  private lazy var dateFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.calendar = Calendar(identifier: .gregorian)
-    dateFormatter.locale = Locale.autoupdatingCurrent
-    dateFormatter.setLocalizedDateFormatFromTemplate("MMMM y")
-    return dateFormatter
-  }()
-
-  var baseDate = Date() {
-    didSet {
-      monthLabel.text = dateFormatter.string(from: baseDate)
-    }
-  }
-
- 
-
-  init(exitButtonTappedCompletionHandler: @escaping (() -> Void)) {
-      
-    super.init(frame: CGRect.zero)
-
-    translatesAutoresizingMaskIntoConstraints = false
-
-    backgroundColor = .systemGroupedBackground
-
-//    layer.maskedCorners = [
-//      .layerMinXMinYCorner,
-//      .layerMaxXMinYCorner
-//    ]
-//    layer.cornerCurve = .continuous
-//    layer.cornerRadius = 15
-      
+    lazy var monthLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 26, weight: .bold)
+        label.text = "Month"
+        label.accessibilityTraits = .header
+        label.isAccessibilityElement = true
+        return label
+    }()
     
-
-    addSubview(monthLabel)
-    addSubview(dayOfWeekStackView)
-    addSubview(separatorView)
-
-    for dayNumber in 1...7 {
-      let dayLabel = UILabel()
-      dayLabel.font = .systemFont(ofSize: 12, weight: .bold)
-      dayLabel.textColor = .secondaryLabel
-      dayLabel.textAlignment = .center
-      dayLabel.text = dayOfWeekLetter(for: dayNumber)
-
-      // VoiceOver users don't need to hear these days of the week read to them, nor do SwitchControl or Voice Control users need to select them
-      // If fact, they get in the way!
-      // When a VoiceOver user highlights a day of the month, the day of the week is read to them.
-      // That method provides the same amount of context as this stack view does to visual users
-      dayLabel.isAccessibilityElement = false
-      dayOfWeekStackView.addArrangedSubview(dayLabel)
+    lazy var mergeButton: UIButton = {
+        let color = UIColor.systemIndigo
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.frame = CGRect(x: 100, y: 100, width: 70, height: 70)
+        
+        button.setTitle("Merge", for: .normal)
+        button.setTitleColor(color, for: .normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: 20, left: -35, bottom: -25, right: 2)
+        
+        var image = UIImage(named: "clapperboard.fill.png")?.withRenderingMode(.alwaysTemplate)
+        
+        button.tintColor = color
+        button.setImage(image, for: .normal)
+        button.imageView?.contentMode = .top
+        button.imageView?.contentMode = .scaleAspectFit
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 15, right: 25)
+//        button.layer.borderWidth = 1.0
+//        button.layer.borderColor = UIColor.purple.cgColor
+//        button.layer.cornerRadius = 30
+        
+        button.addTarget(self, action: #selector(didTapMergeButton), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    
+    
+    lazy var separatorView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor.label.withAlphaComponent(0.2)
+        return view
+    }()
+    
+    private lazy var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.calendar = Calendar(identifier: .gregorian)
+        dateFormatter.locale = Locale.autoupdatingCurrent
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMM y")
+        return dateFormatter
+    }()
+    
+    var baseDate = Date() {
+        didSet {
+            monthLabel.text = dateFormatter.string(from: baseDate)
+        }
     }
-
-  
-  }
-
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  private func dayOfWeekLetter(for dayNumber: Int) -> String {
-    switch dayNumber {
-    case 1:
-      return "S"
-    case 2:
-      return "M"
-    case 3:
-      return "T"
-    case 4:
-      return "W"
-    case 5:
-      return "T"
-    case 6:
-      return "F"
-    case 7:
-      return "S"
-    default:
-      return ""
+    
+    let didTapMergeCompletitionHandler: (() -> Void)
+    
+    
+    init( exitButtonTappedCompletionHandler: @escaping (() -> Void),
+          didTapMergeCompletitionHandler: @escaping (() -> Void)
+    )  {
+        
+        self.didTapMergeCompletitionHandler = didTapMergeCompletitionHandler
+        
+        super.init(frame: CGRect.zero)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        backgroundColor = .systemGroupedBackground
+        
+        addSubview(monthLabel)
+        addSubview(separatorView)
+        addSubview(mergeButton)
+       
+        
     }
-  }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-
-    NSLayoutConstraint.activate([
-        monthLabel.topAnchor.constraint(equalTo: super.safeAreaLayoutGuide.topAnchor),
-      monthLabel.centerXAnchor.constraint(equalTo: super.centerXAnchor),
-      
-
-      dayOfWeekStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      dayOfWeekStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      dayOfWeekStackView.bottomAnchor.constraint(equalTo: separatorView.bottomAnchor, constant: -5),
-
-      separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
-      separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
-      separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      separatorView.heightAnchor.constraint(equalToConstant: 1)
-    ])
-  }
+    
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        addSubview(mergeButton)
+        
+        mergeButton.frame.size = CGSize(width: 70, height: 70)
+        
+        NSLayoutConstraint.activate([
+            monthLabel.topAnchor.constraint(equalTo: super.safeAreaLayoutGuide.topAnchor),
+            monthLabel.centerXAnchor.constraint(equalTo: super.centerXAnchor),
+            
+            mergeButton.widthAnchor.constraint(equalToConstant: 70),
+            mergeButton.heightAnchor.constraint(equalToConstant: 70),
+            mergeButton.trailingAnchor.constraint(equalTo: super.trailingAnchor, constant: -20),
+            mergeButton.topAnchor.constraint(equalTo: super.topAnchor, constant: 40),
+            
+//            mergeButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            separatorView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+    }
+    
+    @objc func didTapMergeButton() {
+        didTapMergeCompletitionHandler()
+    }
 }

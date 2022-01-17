@@ -162,22 +162,6 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
-    
-    @IBAction func captureLifeBtn(_ sender: AnyObject) {
-        
-        //        let url = URL(string: "/Users/riccardocarlotto/Library/Developer/CoreSimulator/Devices/EB802C77-E362-4B7A-AB48-582405143485/data/Containers/Data/Application/F38CF026-E63F-48A4-9510-44350A1E28C5/Documents/trim.E7789D18-6BEE-4100-8FDB-5F45CADAD92D.MOV")!
-        //
-        //        let image = dataManager.generateThumbnail(url: url)
-        //        print (image)
-        
-        //        DispatchQueue.main.async {
-        //            VideoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
-        //        }
-    }
-    
-    
-    
-    
 }
 
 
@@ -312,13 +296,47 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         }
         
         let photoLibraryAction = UIAlertAction(title: "Camera", style: .default) { _ in
-            //            let imagePicker = self.imagePicker(for: .photoLibrary)
-            //            imagePicker.modalPresentationStyle = .popover
-            //            imagePicker.popoverPresentationController?.barButtonItem = sender
-            //            self.present(imagePicker, animated: true, completion: nil)
+            
+            DispatchQueue.main.async {
+                self.videoHelper.startMediaBrowser(delegate: self, sourceType: .camera)
+                
+            }
+           
         }
         
         alertController.addAction(photoLibraryAction)
+        
+        
+        guard let indexSelected = selectedIndexPath?.row else {return}
+        if arrayDayCell[indexSelected].image != nil {
+                // only if arraydacell.image is populated add this alert action
+                
+                let deleteAction = UIAlertAction(title: "Delete Video", style: .destructive)
+                { _ in
+                    
+                    if let indexSelected = self.selectedIndexPath?.row {
+                        let dateDayCell = self.arrayDayCell[indexSelected].date
+                        
+                        for i in self.dataManager.arrayMyData {
+                            let dateMyData = i.date
+                            
+                            let order = Calendar.current.compare(dateDayCell, to: dateMyData, toGranularity: .day)
+                            
+                            if order == .orderedSame {
+                                self.dataManager.remove(i)
+                                self.loadTheData()
+                            }
+                        }
+                    }
+                }
+                
+                alertController.addAction(deleteAction)
+                 
+            }
+            
+        
+        
+        
         
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

@@ -57,6 +57,12 @@ class CalendarPickerHeaderView: UIView {
         mergingButton.translatesAutoresizingMaskIntoConstraints = false
         mergingButton.backgroundColor = nil
         
+        let image: UIImage = UIImage(named: "clapperboard.fill.png")!
+
+        mergingButton.icon.image = image.withRenderingMode(.alwaysTemplate)
+        mergingButton.icon.tintColor = .label
+        
+        
     }
     
     

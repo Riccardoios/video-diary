@@ -144,7 +144,7 @@ class MyDataManger {
             let url = documentDir.appendingPathComponent(arrayMyData[i].nameVideo)
             arrVideoUrls?.append(url)
         }
-        print ("arrVideoUrls", arrVideoUrls)
+        
         return arrVideoUrls
         
     }

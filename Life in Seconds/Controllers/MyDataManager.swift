@@ -12,10 +12,11 @@ let myFile_json = "myFile.json"
 
 class MyDataManger {
     
+    static var shared = MyDataManger()
     
     private(set) var arrayMyData : [MyData] = []
     
-    private(set) var arrMergedVideo : [URL] = []
+    private(set) var arrMergedVideo : [URL]? = []
     
     init() {
         loadArrayMyData()
@@ -34,15 +35,13 @@ class MyDataManger {
         return fileURL
     }
     
-    
-    
     func add(_ task: MyData) {
         arrayMyData.append(task)
             saveArrayMyData()
     }
     
     func remove(_ task: MyData) {
-            guard let index = arrayMyData.firstIndex(of: task) else { return }
+        guard let index = arrayMyData.firstIndex(of: task) else { return }
         arrayMyData.remove(at: index)
             saveArrayMyData()
     }
@@ -111,8 +110,7 @@ class MyDataManger {
             url = nameFileURL(fromMovie)
         } else {
             
-            let fileManager = FileManager.default
-            let nameDir = nameFileURL("merged videos")
+            let nameDir = nameFileURL("mergedVideos")
             guard let urlMergedV = urlMergedVideo else {return nil}
             let nameVideo = nameDir.appendingPathComponent(urlMergedV)
             
@@ -136,22 +134,33 @@ class MyDataManger {
         
     }
     
+    func getUrlsVideo() -> [URL]? {
+        
+        var arrVideoUrls: [URL]? = []
+        
+        let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        
+        for i in 0..<arrayMyData.count {
+            let url = documentDir.appendingPathComponent(arrayMyData[i].nameVideo)
+            arrVideoUrls?.append(url)
+        }
+        print ("arrVideoUrls", arrVideoUrls)
+        return arrVideoUrls
+        
+    }
+    
     func getMergedVideo(){
         
         let fileManager = FileManager.default
-        let nameDir = nameFileURL("merged videos")
+        let nameDir = nameFileURL("mergedVideos")
         
         do {
             // guard directory already exist
             if fileManager.fileExists(atPath: nameDir.path) {
                 
-                let videosStringsURL = try fileManager.contentsOfDirectory(atPath: nameDir.path)
-    
-                for i in videosStringsURL {
-                    let url = URL(string: i)!
-                    
-                    arrMergedVideo.append(url)
-                }
+//                let videosStringsURL = try fileManager.contentsOfDirectory(atPath: nameDir.path)
+                
+                arrMergedVideo = try fileManager.contentsOfDirectory(at: nameDir, includingPropertiesForKeys: nil, options: .producesRelativePathURLs)
                 
                 
             } else {

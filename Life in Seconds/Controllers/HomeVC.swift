@@ -14,7 +14,6 @@ private let reuseIdentifier = "MyCell123"
 
 class HomeVC: UIViewController, UICollectionViewDelegate  {
     
-    
     //MARK: - Calendar  and collection Properties
     private var sectionInsets = UIEdgeInsets(top: 70.0, left: 10.0, bottom: 8.0, right: 10.0)
     
@@ -27,15 +26,15 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     var baseDate: Date = Date()
     
     //objects
-    let dataManager = MyDataManger()
+    let dataManager = MyDataManger.shared
     let videoHelper = VideoHelper()
+    let merger = MergeExport.shared
     
     var arrayDayCell: [DayCell] = [DayCell]()
     
     private lazy var footerView = CalendarPickerFooterView(
         didTapLastMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
-            
             
             self.baseDate = self.calendar.date(
                 byAdding: .month,
@@ -81,19 +80,13 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     private lazy var headerView = CalendarPickerHeaderView {
         [weak self] in
         guard let self = self else { return }
-    } didTapMergeCompletitionHandler: {
-        [weak self] in
-            guard let self = self else {return}
-        print ("merge button pressed")
     }
 
+        
     
     //MARK: - VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        dataManager.getMergedVideo()
         
         view.addSubview(headerView)
         view.addSubview(footerView)
@@ -102,7 +95,8 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
         
         loadTheData()
         
-        print ("aaa" ,dataManager.arrayMyData.count)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(moveToMovies), name: .mergeComplete, object: nil)
         
         
         
@@ -111,11 +105,10 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
         var constraints:[NSLayoutConstraint] = []
         
         constraints.append(contentsOf: [
-            
+     
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            //            collectionView.heightAnchor.constraint(equalToConstant: (55.3 * 7) + 4 + sectionInsets.top ),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130),
             
             headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -151,8 +144,19 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        headerView.mergingButton.wheel.stopAnimating()
+        headerView.mergingButton.icon.isHidden = false
         // Don't forget to reset when view is being removed
         AppUtility.lockOrientation(.all)
+    }
+    
+   
+    
+    @objc func moveToMovies () {
+        
+//            performSegue(withIdentifier: "toMovies", sender: self)
+        tabBarController?.selectedIndex = 1
+        
     }
     
     
@@ -242,11 +246,6 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     
     // the size of the cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // here we need a calculation that guartee the size of the cells to be evenly placed in any screen otherwise simply return a Square CGSize
-        //        let totalGapSizeInOneRow = sectionInsets.left * (itemsPerRow + 1)
-        //        // the padding on the left four times ( because we have 7 cells so 8 gaps )
-        //        let availableWidthForAllCells = view.frame.width - totalGapSizeInOneRow
-        //        let widthPerCell = availableWidthForAllCells / itemsPerRow
         
         // get the cell all touching each other
         let width = collectionView.bounds.width/4.6
@@ -272,6 +271,10 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     }
     // minimum spacing between successive rows or columns of a section
     
+    
+    
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
@@ -295,7 +298,7 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         alertController.modalPresentationStyle = .popover
         //        alertController.popoverPresentationController? = co
         // to specify the position where the popover start which is in the camera button
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let cameraAction = UIAlertAction(title: "Photo Library", style: .default) { _ in
                 
                 if self.savedPhotosAvailable() {
@@ -304,11 +307,6 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
                     
                 }
                 
-                //                let imagePicker = self.imagePicker(for: .camera)
-                //                imagePicker.allowsEditing = true
-                
-                //
-                //                self.present(imagePicker, animated: true, completion: nil)
             }
             alertController.addAction(cameraAction)
         }
@@ -385,15 +383,11 @@ extension HomeVC {
                 
                 switch order {
                 case .orderedSame:
-                    //                        let url = dataManager.arrayMyData[y].urlVideo
-                    //                        let image = self.dataManager.generateThumbnail(path: url)
-                    //                        arrayDayCell[x].image = image
                     let nameVideo = dataManager.arrayMyData[y].nameVideo
                     
                     let image =  self.dataManager.generateThumbnail(fromMovie: nameVideo)
                     arrayDayCell[x].image = image
                     
-                    //                        loadTheData()
                     
                 default: break
                 }
@@ -421,12 +415,7 @@ extension HomeVC {
                 arrayDayCell[0].year == year &&
                 arrayDayCell[0].month == month &&
                 arrayDayCell[(Int(day)!-1)].day == day {
-            
-            //find the index where
-            //                let rightIndex: IndexPath = IndexPath(row: (Int(day)!-1)+additionalDays, section: 0)
-            //
-            //                selectedIndexPath = rightIndex
-            //                collectionView.reloadItems(at: [rightIndex])
+          
         }
         
         
@@ -435,33 +424,6 @@ extension HomeVC {
     }
     
     
-//    func addOffsetPreviuosMonth() {
-//        guard !arrayDayCell.isEmpty else {return}
-//
-//        let dateInput = arrayDayCell.first!.date
-//
-//        let firstDayOfMonth = calendar.date(
-//            from: calendar.dateComponents([.year, .month], from: dateInput))
-//
-//        let additionalDays = calendar.component(.weekday, from: firstDayOfMonth!) - 1
-//        print (additionalDays, "additionalDays")
-//        // we want to get this
-//        // S M T W T F S
-//        // 0 1 2 3 4 5 6
-//
-//        // get one month less and the last day
-//        if additionalDays >= 1 {
-//
-//            for i in 1..<additionalDays {
-//                let datesPreviuosMonth = calendar.date(byAdding: .day, value: -(i), to: dateInput)!
-//                var dayCell = DayCell(date: datesPreviuosMonth, image: nil)
-//                dayCell.isGrayedout = true
-//
-//                arrayDayCell.insert(dayCell, at: 0)
-//            }
-//        }
-//
-//    }
     
     
 }
@@ -487,40 +449,10 @@ extension HomeVC {
     }
 }
 
-//MARK: - MyData Generation
-extension HomeVC {
-    
-    //    func generateThumbnail(path: URL) -> UIImage? {
-    //        do {
-    //            let asset = AVURLAsset(url: path, options: nil)
-    //            let imgGenerator = AVAssetImageGenerator(asset: asset)
-    //            imgGenerator.appliesPreferredTrackTransform = true
-    //            let cgImage = try imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
-    //            let thumbnail = UIImage(cgImage: cgImage)
-    //            return thumbnail
-    //        } catch let error {
-    //            print("*** Error generating thumbnail: \(error.localizedDescription)")
-    //            return nil
-    //        }
-    //    }
-    
-}
 
 //MARK: UIImagePickerControllerDelegate
 extension HomeVC: UIImagePickerControllerDelegate {
-    
-    //  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-    //    dismiss(animated: true, completion: nil)
-    //
-    //    guard
-    //      let mediaType = info[UIImagePickerController.InfoKey.mediaType] as? String, mediaType == (kUTTypeMovie as String),
-    //      let url = info[UIImagePickerController.InfoKey.mediaURL] as? URL,
-    //      UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(url.path)
-    //    else {return }
-    //
-    //    UISaveVideoAtPathToSavedPhotosAlbum(url.path, self, #selector(video(_:didFinishSavingWithError:contextInfo:)), nil)
-    //
-    //  }
+
     
     
     func imagePickerController(_ picker: UIImagePickerController,
@@ -534,29 +466,19 @@ extension HomeVC: UIImagePickerControllerDelegate {
         else { return }
         
         //      let avAsset = AVAsset(url: url)
-        var message = "yo"
+        
         
         
         if selectedIndexPath != nil {
             
             //save video in file manager and the new url in the array
             dataManager.saveVideoInDocuments(url: url, date: baseDate)
-            
-            
-            
-            
-            
+              
         }
-        //      if loadingAssetOne {
-        //        message = "Video one loaded"
-        //        firstAsset = avAsset
-        //      } else {
-        //        message = "Video two loaded"
-        //        secondAsset = avAsset
-        //      }
+      
         let alert = UIAlertController(
-            title: "Asset Loaded",
-            message: message,
+            title: "Video Loaded",
+            message: "press ok to continue",
             preferredStyle: .alert)
         alert.addAction(UIAlertAction(
             title: "OK",

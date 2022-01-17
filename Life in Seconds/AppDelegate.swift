@@ -46,9 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         if #available(iOS 14, *) {
-            let readWriteStatus = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-            
-            
+           
             // Request read-write access to the user's photo library.
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { status in
                 switch status {

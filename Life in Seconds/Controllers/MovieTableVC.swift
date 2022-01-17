@@ -6,14 +6,19 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class MovieTableVC: UITableViewController {
     
-    let dataManager = MyDataManger()
+    let dataManager = MyDataManger.shared
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       
+       
+        
         
         tableView.rowHeight = 100
         // Uncomment the following line to preserve selection between presentations
@@ -21,6 +26,12 @@ class MovieTableVC: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        dataManager.getMergedVideo()
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -32,7 +43,7 @@ class MovieTableVC: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return dataManager.arrMergedVideo.count
+        return dataManager.arrMergedVideo?.count ?? 0
     }
 
     
@@ -40,7 +51,7 @@ class MovieTableVC: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! TableCell
         
-        let videoName = dataManager.arrMergedVideo[indexPath.row].lastPathComponent
+        let videoName = dataManager.arrMergedVideo?[indexPath.row].lastPathComponent
         
         cell.label.text = videoName
         
@@ -50,6 +61,17 @@ class MovieTableVC: UITableViewController {
         
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       
+        let videoURL = dataManager.arrMergedVideo?[indexPath.row]
+        let player = AVPlayer(url: videoURL!)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        self.present(playerViewController, animated: true) {
+            playerViewController.player!.play()
+        }
     }
     
 

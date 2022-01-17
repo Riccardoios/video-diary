@@ -80,6 +80,7 @@
                     <tabBarItem key="tabBarItem" title="Calendar" image="calendar" catalog="system" id="KmA-Gu-8Wf"/>
                     <connections>
                         <outlet property="collectionView" destination="eT3-wO-s72" id="MuI-nb-8np"/>
+                        <segue destination="4sV-nk-yIo" kind="presentation" identifier="toMovies" id="gZX-Ka-hKL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -135,6 +136,7 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Movies" image="tray.full" catalog="system" id="OJG-Kx-qo1"/>
+                    <navigationItem key="navigationItem" id="f7e-Ro-4sP"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qbh-30-qiy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -161,6 +163,9 @@
             <point key="canvasLocation" x="4" y="-631"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="5yN-7s-JQg"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="calendar" catalog="system" width="128" height="106"/>
         <image name="tray.full" catalog="system" width="128" height="88"/>

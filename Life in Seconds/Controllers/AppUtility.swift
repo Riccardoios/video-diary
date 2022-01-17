@@ -26,3 +26,8 @@ struct AppUtility {
     }
     
 }
+
+extension Notification.Name {
+    static let mergeComplete = Notification.Name("mergeComplete")
+    
+}

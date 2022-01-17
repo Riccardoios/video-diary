@@ -4,6 +4,7 @@ import MobileCoreServices
 import UIKit
 
 class VideoHelper: NSObject {
+    
    func startMediaBrowser(
     delegate: UIViewController & UINavigationControllerDelegate & UIImagePickerControllerDelegate,
     sourceType: UIImagePickerController.SourceType

@@ -13,33 +13,6 @@ class CalendarPickerHeaderView: UIView {
         return label
     }()
     
-    lazy var mergeButton: UIButton = {
-        let color = UIColor.systemIndigo
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-//        button.frame = CGRect(x: 100, y: 100, width: 70, height: 70)
-        
-        button.setTitle("Merge", for: .normal)
-        button.setTitleColor(color, for: .normal)
-        button.titleEdgeInsets = UIEdgeInsets(top: 20, left: -35, bottom: -25, right: 2)
-        
-        var image = UIImage(named: "clapperboard.fill.png")?.withRenderingMode(.alwaysTemplate)
-        
-        button.tintColor = color
-        button.setImage(image, for: .normal)
-        button.imageView?.contentMode = .top
-        button.imageView?.contentMode = .scaleAspectFit
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 15, right: 25)
-//        button.layer.borderWidth = 1.0
-//        button.layer.borderColor = UIColor.purple.cgColor
-//        button.layer.cornerRadius = 30
-        
-        button.addTarget(self, action: #selector(didTapMergeButton), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    
     
     lazy var separatorView: UIView = {
         let view = UIView()
@@ -62,16 +35,16 @@ class CalendarPickerHeaderView: UIView {
         }
     }
     
-    let didTapMergeCompletitionHandler: (() -> Void)
+    var mergingButton: MergingButton!
     
-    
-    init( exitButtonTappedCompletionHandler: @escaping (() -> Void),
-          didTapMergeCompletitionHandler: @escaping (() -> Void)
+    init( exitButtonTappedCompletionHandler: @escaping (() -> Void)
     )  {
         
-        self.didTapMergeCompletitionHandler = didTapMergeCompletitionHandler
+        
         
         super.init(frame: CGRect.zero)
+        
+        mergingButton = UINib(nibName: "MergingButton", bundle: nil).instantiate(withOwner: self, options: nil).first as? MergingButton
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -79,8 +52,10 @@ class CalendarPickerHeaderView: UIView {
         
         addSubview(monthLabel)
         addSubview(separatorView)
-        addSubview(mergeButton)
-       
+        addSubview(mergingButton)
+        
+        mergingButton.translatesAutoresizingMaskIntoConstraints = false
+        mergingButton.backgroundColor = nil
         
     }
     
@@ -90,24 +65,21 @@ class CalendarPickerHeaderView: UIView {
     }
     
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        addSubview(mergeButton)
-        
-        mergeButton.frame.size = CGSize(width: 70, height: 70)
+        addSubview(mergingButton)
+        mergingButton.frame.size = CGSize(width: 70, height: 70)
         
         NSLayoutConstraint.activate([
             monthLabel.topAnchor.constraint(equalTo: super.safeAreaLayoutGuide.topAnchor),
             monthLabel.centerXAnchor.constraint(equalTo: super.centerXAnchor),
             
-            mergeButton.widthAnchor.constraint(equalToConstant: 70),
-            mergeButton.heightAnchor.constraint(equalToConstant: 70),
-            mergeButton.trailingAnchor.constraint(equalTo: super.trailingAnchor, constant: -20),
-            mergeButton.topAnchor.constraint(equalTo: super.topAnchor, constant: 40),
             
-//            mergeButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            mergingButton.trailingAnchor.constraint(equalTo: super.trailingAnchor),
+            mergingButton.topAnchor.constraint(equalTo: super.topAnchor, constant: 40),
+            mergingButton.widthAnchor.constraint(equalToConstant: 70),
+            mergingButton.heightAnchor.constraint(equalToConstant: 70),
             
             separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
             separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -116,7 +88,4 @@ class CalendarPickerHeaderView: UIView {
         ])
     }
     
-    @objc func didTapMergeButton() {
-        didTapMergeCompletitionHandler()
-    }
 }

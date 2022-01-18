@@ -28,16 +28,23 @@ class MergingButton: UIView {
     
     
     @IBAction func btnPressed(_ sender: UIButton) {
-        print ("yo")
+        
+        dataManager.isForMerging = true
+        
+        NotificationCenter.default.post(name: .setLabelToSelectStart, object: nil)
+        
+//        guard let urls = dataManager.getUrlsVideo(start: dataManager.startDate, end: dataManager.endDate) else {return}
+
+//        icon.isHidden = true
+//        wheel.startAnimating()
+
+//        merger.videoURLS = urls
+        
+//        dataManager.isForMerging = false
+        
+//        merger.mergeAndExportVideo()
         
         
-        guard let urls = dataManager.getUrlsVideo() else {return}
-
-        icon.isHidden = true
-        wheel.startAnimating()
-
-        merger.videoURLS = urls
-        merger.mergeAndExportVideo()
         
     }
     

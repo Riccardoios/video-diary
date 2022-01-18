@@ -142,9 +142,9 @@
 				3A7129A727736AD000DCE4D5 /* HomeVC.swift */,
 				3A99F56C278DD5E90022817A /* MovieTableVC.swift */,
 				3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */,
+				3A1F2864279024CB00B2EA5D /* MergeExport.swift */,
 				3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */,
 				3A99F546278C6F140022817A /* AppUtility.swift */,
-				3A1F2864279024CB00B2EA5D /* MergeExport.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

@@ -18,6 +18,12 @@ class MyDataManger {
     
     private(set) var arrMergedVideo : [URL]? = []
     
+    var startDate: Date!
+    var endDate: Date!
+    var isForMerging = false
+    var arrSelection: [IndexPath] = []
+    
+    
     init() {
         loadArrayMyData()
         getMergedVideo()
@@ -134,15 +140,18 @@ class MyDataManger {
         
     }
     
-    func getUrlsVideo() -> [URL]? {
+    func getUrlsVideo(start: Date, end: Date) -> [URL]? {
         
         var arrVideoUrls: [URL]? = []
         
         let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         
         for i in 0..<arrayMyData.count {
-            let url = documentDir.appendingPathComponent(arrayMyData[i].nameVideo)
-            arrVideoUrls?.append(url)
+            
+            if arrayMyData[i].date >= start && arrayMyData[i].date <= end {
+                let url = documentDir.appendingPathComponent(arrayMyData[i].nameVideo)
+                arrVideoUrls?.append(url)
+            }
         }
         
         return arrVideoUrls
@@ -173,6 +182,8 @@ class MyDataManger {
         }
         
     }
+    
+   
     
     
 }

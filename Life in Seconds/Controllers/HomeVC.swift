@@ -25,12 +25,16 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     
     var baseDate: Date = Date()
     
+    var arrSelection: [Int] = []
+    
+    
     //objects
     let dataManager = MyDataManger.shared
     let videoHelper = VideoHelper()
     let merger = MergeExport.shared
     
     var arrayDayCell: [DayCell] = [DayCell]()
+    
     
     private lazy var footerView = CalendarPickerFooterView(
         didTapLastMonthCompletionHandler: { [weak self] in
@@ -80,6 +84,8 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
     private lazy var headerView = CalendarPickerHeaderView {
         [weak self] in
         guard let self = self else { return }
+        
+        
     }
 
         
@@ -97,7 +103,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(moveToMovies), name: .mergeComplete, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector:  #selector(setMonthLabelToSelect), name: .setLabelToSelectStart, object: nil)
         
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -157,6 +163,10 @@ class HomeVC: UIViewController, UICollectionViewDelegate  {
 //            performSegue(withIdentifier: "toMovies", sender: self)
         tabBarController?.selectedIndex = 1
         
+    }
+    
+    @objc func setMonthLabelToSelect() {
+        headerView.monthLabel.text = "Select start date"
     }
     
     
@@ -277,6 +287,46 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         collectionView.reloadItems(at: reloadIndexPaths)
         
         
+        if dataManager.isForMerging == true {
+            
+           
+           
+            arrSelection.append(indexPath.row)
+            
+            if arrSelection.count == 2 {
+                print ("arraySelection ready")
+                // here save the dates
+                dataManager.startDate = arrayDayCell[ arrSelection[0] ].date
+                
+                dataManager.endDate = arrayDayCell[ arrSelection[1] ].date
+                
+                
+                arrSelection.removeAll()
+                
+                headerView.mergingButton.icon.isHidden = true
+                headerView.mergingButton.wheel.startAnimating()
+                
+                headerView.baseDate = baseDate
+                
+                guard let urls = dataManager.getUrlsVideo(start: dataManager.startDate, end: dataManager.endDate) else {return}
+                
+                merger.videoURLS = urls
+                
+                dataManager.isForMerging = false
+                
+                merger.mergeAndExportVideo()
+                
+                
+            } else if arrSelection.count == 1 {
+                headerView.monthLabel.text = "Select end date"
+            } else if arrSelection.count == 0 {
+                
+            }
+              
+            
+        } else {
+        
+        
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         alertController.modalPresentationStyle = .popover
@@ -343,6 +393,8 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         alertController.addAction(cancelAction)
         
         present(alertController, animated: true, completion: nil)
+            
+        }
         
     }
     

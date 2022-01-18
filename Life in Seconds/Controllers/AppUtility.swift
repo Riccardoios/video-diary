@@ -29,5 +29,6 @@ struct AppUtility {
 
 extension Notification.Name {
     static let mergeComplete = Notification.Name("mergeComplete")
+    static let setLabelToSelectStart = Notification.Name("setLabelToSelectStart")
     
 }

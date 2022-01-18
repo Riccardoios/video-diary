@@ -13,6 +13,9 @@ class TableCell: UITableViewCell {
     
     @IBOutlet weak var videoImage: UIImageView!
     
+    @IBOutlet weak var button: UIButton!
+    
+    weak var viewController: UITableViewController?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,5 +27,7 @@ class TableCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    
+    
 }

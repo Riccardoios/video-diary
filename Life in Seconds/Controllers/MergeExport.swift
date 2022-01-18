@@ -12,14 +12,15 @@ class MergeExport {
     var videoURLS = [URL]() // input
     let HDVideoSize = CGSize(width: 1920.0, height: 1080.0)
     
+    
     var uniqueUrl: URL {
         let documentDir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         var directory = documentDir.appendingPathComponent("mergedVideos")
         print ("directory", directory)
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
         let date = dateFormatter.string(from: Date())
-        directory.appendPathComponent("merge-\(date).mov")
+        directory.appendPathComponent("\(date).mov")
         return directory
     }
     
@@ -132,5 +133,7 @@ class MergeExport {
         }
         return (assetOrientation, isPortrait)
     }
+    
+    
     
 }

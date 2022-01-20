@@ -269,6 +269,8 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
     
     
     
+    
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         
@@ -289,39 +291,7 @@ extension HomeVC : UICollectionViewDelegateFlowLayout {
         
         if dataManager.isForMerging == true {
             
-           
-           
-            arrSelection.append(indexPath.row)
-            
-            if arrSelection.count == 2 {
-                print ("arraySelection ready")
-                // here save the dates
-                dataManager.startDate = arrayDayCell[ arrSelection[0] ].date
-                
-                dataManager.endDate = arrayDayCell[ arrSelection[1] ].date
-                
-                
-                arrSelection.removeAll()
-                
-                headerView.mergingButton.icon.isHidden = true
-                headerView.mergingButton.wheel.startAnimating()
-                
-                headerView.baseDate = baseDate
-                
-                guard let urls = dataManager.getUrlsVideo(start: dataManager.startDate, end: dataManager.endDate) else {return}
-                
-                merger.videoURLS = urls
-                
-                dataManager.isForMerging = false
-                
-                merger.mergeAndExportVideo()
-                
-                
-            } else if arrSelection.count == 1 {
-                headerView.monthLabel.text = "Select end date"
-            } else if arrSelection.count == 0 {
-                
-            }
+            selectionFlow(indexPath)
               
             
         } else {
@@ -488,13 +458,7 @@ extension HomeVC {
           
         }
         
-        
-        
-        
     }
-    
-    
-    
     
 }
 
@@ -520,7 +484,7 @@ extension HomeVC {
 }
 
 
-//MARK: UIImagePickerControllerDelegate
+//MARK: - UIImagePickerControllerDelegate
 extension HomeVC: UIImagePickerControllerDelegate {
 
     
@@ -576,6 +540,45 @@ extension HomeVC: UIImagePickerControllerDelegate {
                                       style: .cancel,
                                       handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    
+    
+}
+
+// MARK: - merging flow
+extension HomeVC {
+    
+    func selectionFlow(_ indexPath: IndexPath) {
+        arrSelection.append(indexPath.row)
+        
+        if arrSelection.count == 2 {
+            print ("arraySelection ready")
+            // here save the dates
+            dataManager.startDate = arrayDayCell[ arrSelection[0] ].date
+            
+            dataManager.endDate = arrayDayCell[ arrSelection[1] ].date
+            
+            
+            arrSelection.removeAll()
+            
+            headerView.mergingButton.icon.isHidden = true
+            headerView.mergingButton.wheel.startAnimating()
+            
+            headerView.baseDate = baseDate
+            
+            guard let urls = dataManager.getUrlsVideo(start: dataManager.startDate, end: dataManager.endDate) else {return}
+            
+            merger.videoURLS = urls
+            
+            dataManager.isForMerging = false
+            
+            merger.mergeAndExportVideo()
+            
+            
+        } else if arrSelection.count == 1 {
+            headerView.monthLabel.text = "Select end date"
+        }
     }
     
 }

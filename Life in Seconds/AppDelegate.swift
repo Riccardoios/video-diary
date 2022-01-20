@@ -8,7 +8,7 @@
 import UIKit
 import Photos
 import AdSupport
-import AppTrackingTransparency
+//import AppTrackingTransparency
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,31 +18,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         
-        if #available(iOS 14, *) {
-            ATTrackingManager.requestTrackingAuthorization { status in
-                DispatchQueue.main.async {
-                    switch status {
-                    case .authorized:
-                        // Authorized
-                        let idfa = ASIdentifierManager.shared().advertisingIdentifier
-                        print (idfa.uuidString, "idfa")
-                        print ("tracking: authorized")
-                    case .denied:
-                        print ("tracking: denied")
-                    case  .notDetermined:
-                        print ("tracking: not determined")
-                    case  .restricted:
-                        print ("tracking: restricret")
-                        
-                        
-                    @unknown default:
-                        break
-                    }
-                }
-            }
-        } else {
-            // Fallback on earlier versions
-        }
+//        if #available(iOS 14, *) {
+//            ATTrackingManager.requestTrackingAuthorization { status in
+//                DispatchQueue.main.async {
+//                    switch status {
+//                    case .authorized:
+//                        // Authorized
+//                        let idfa = ASIdentifierManager.shared().advertisingIdentifier
+//                        print (idfa.uuidString, "idfa")
+//                        print ("tracking: authorized")
+//                    case .denied:
+//                        print ("tracking: denied")
+//                    case  .notDetermined:
+//                        print ("tracking: not determined")
+//                    case  .restricted:
+//                        print ("tracking: restricret")
+//
+//
+//                    @unknown default:
+//                        break
+//                    }
+//                }
+//            }
+//        } else {
+//            // Fallback on earlier versions
+//        }
         
         
         if #available(iOS 14, *) {

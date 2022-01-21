@@ -1,4 +1,4 @@
-# Life in Seconds - Video Diary
+## Video Diary
 App for merging videos from a calendar view 
 
 
@@ -6,7 +6,7 @@ App for merging videos from a calendar view
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Riccardoios/life-in-seconds-video-diary/">
+  <a href="https://github.com/Riccardoios/video-diary/">
     <img src="images/life in seconds.png" ">
   </a>
 

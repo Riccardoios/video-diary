@@ -80,7 +80,7 @@ Don't forget to give the project a star! Thanks again!
 <!-- Download on App Store -->
 ## Download on App Store
 
-* [https://apps.apple.com/us/app/life-in-seconds-video-diary/id1606008204](https://apps.apple.com/us/app/life-in-seconds-video-diary/id1606008204)
+* [https://apps.apple.com/us/app/video-diary/id1606008204](https://apps.apple.com/us/app/video-diary/id1606008204)
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>

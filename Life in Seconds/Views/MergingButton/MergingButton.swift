@@ -15,7 +15,7 @@ class MergingButton: UIView {
     @IBOutlet weak var wheel: UIActivityIndicatorView!
     
     let merger = MergeExport.shared
-    let dataManager = MyDataManger.shared
+    let dataManager = JournalVideoManger.shared
     
     override init(frame: CGRect) {
         super.init(frame: frame)

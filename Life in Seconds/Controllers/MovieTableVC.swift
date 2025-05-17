@@ -11,7 +11,7 @@ import AVFoundation
 
 class MovieTableVC: UITableViewController {
     
-    let dataManager = MyDataManger.shared
+    let dataManager = JournalVideoManger.shared
     var videoUrl: URL!
     
     override func viewDidLoad() {
@@ -41,7 +41,7 @@ class MovieTableVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return dataManager.arrMergedVideo?.count ?? 0
+        return dataManager.mergedVideos?.count ?? 0
     }
     
     
@@ -51,11 +51,11 @@ class MovieTableVC: UITableViewController {
         
         cell.viewController = self
         
-        videoUrl = dataManager.arrMergedVideo?[indexPath.row].absoluteURL
+        videoUrl = dataManager.mergedVideos?[indexPath.row].absoluteURL
         
         cell.button.addTarget(self, action: #selector( showShare(_:) ), for: .touchUpInside)
         
-        let videoName = dataManager.arrMergedVideo?[indexPath.row].lastPathComponent
+        let videoName = dataManager.mergedVideos?[indexPath.row].lastPathComponent
         
         cell.label.text = videoName
         
@@ -67,7 +67,7 @@ class MovieTableVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let videoURL = dataManager.arrMergedVideo?[indexPath.row]
+        let videoURL = dataManager.mergedVideos?[indexPath.row]
         let player = AVPlayer(url: videoURL!)
         let playerViewController = AVPlayerViewController()
         playerViewController.videoGravity = .resizeAspectFill

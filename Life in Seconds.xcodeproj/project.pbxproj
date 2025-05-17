@@ -12,7 +12,7 @@
 		3A1F2865279024CB00B2EA5D /* MergeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F2864279024CB00B2EA5D /* MergeExport.swift */; };
 		3A1F28672790345300B2EA5D /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3A1F28662790345300B2EA5D /* Notes.rtf */; };
 		3A604D84278087BC006BE8DD /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A604D83278087BC006BE8DD /* DayCell.swift */; };
-		3A604D86278087ED006BE8DD /* MyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A604D85278087ED006BE8DD /* MyData.swift */; };
+		3A604D86278087ED006BE8DD /* JournalVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A604D85278087ED006BE8DD /* JournalVideo.swift */; };
 		3A7129A427736AD000DCE4D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A327736AD000DCE4D5 /* AppDelegate.swift */; };
 		3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */; };
 		3A7129A827736AD000DCE4D5 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7129A727736AD000DCE4D5 /* HomeVC.swift */; };
@@ -35,7 +35,7 @@
 		3A1F2864279024CB00B2EA5D /* MergeExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MergeExport.swift; sourceTree = "<group>"; };
 		3A1F28662790345300B2EA5D /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Notes.rtf; path = "Life in Seconds/Notes.rtf"; sourceTree = SOURCE_ROOT; };
 		3A604D83278087BC006BE8DD /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
-		3A604D85278087ED006BE8DD /* MyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyData.swift; sourceTree = "<group>"; };
+		3A604D85278087ED006BE8DD /* JournalVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalVideo.swift; sourceTree = "<group>"; };
 		3A7129A027736AD000DCE4D5 /* Life in Seconds.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life in Seconds.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A7129A327736AD000DCE4D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3A7129A527736AD000DCE4D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				3A604D83278087BC006BE8DD /* DayCell.swift */,
-				3A604D85278087ED006BE8DD /* MyData.swift */,
+				3A604D85278087ED006BE8DD /* JournalVideo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -232,7 +232,7 @@
 				3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */,
 				3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */,
 				3A1F2865279024CB00B2EA5D /* MergeExport.swift in Sources */,
-				3A604D86278087ED006BE8DD /* MyData.swift in Sources */,
+				3A604D86278087ED006BE8DD /* JournalVideo.swift in Sources */,
 				3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */,
 				3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */,
 				3A99F56D278DD5E90022817A /* MovieTableVC.swift in Sources */,
@@ -384,7 +384,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 3339537SZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Life in Seconds/Info.plist";
@@ -403,7 +403,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "riccardo.Life-in-Seconds";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -418,7 +418,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = 3339537SZN;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Life in Seconds/Info.plist";
@@ -437,7 +437,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "riccardo.Life-in-Seconds";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

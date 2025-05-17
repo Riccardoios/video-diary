@@ -1,5 +1,5 @@
 //
-//  MyData.swift
+//  JournalVideo.swift
 //  Life in Seconds
 //
 //  Created by Riccardo Carlotto on 01/01/22.
@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-struct MyData: Codable, Equatable, Identifiable {
+struct JournalVideo: Codable, Equatable, Identifiable {
     
     var id: UUID
     var date: Date

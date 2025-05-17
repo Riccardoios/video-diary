@@ -31,7 +31,7 @@ class CalendarPickerHeaderView: UIView {
     
     var baseDate = Date() {
 //        didSet {
-//            MyDataManger.shared.isForMerging ?  (monthLabel.text = "Select start date") : (monthLabel.text = dateFormatter.string(from: baseDate))
+//            JournalVideoManger.shared.isForMerging ?  (monthLabel.text = "Select start date") : (monthLabel.text = dateFormatter.string(from: baseDate))
 //        }
         
         didSet {

@@ -9,6 +9,7 @@ import MediaPlayer
 import MobileCoreServices
 import PhotosUI
 import UIKit
+import AVKit
 
 private let reuseIdentifier = "MyCell123"
 
@@ -342,8 +343,37 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
 
             guard let indexSelected = selectedIndexPath?.row else { return }
             if dayCells[indexSelected].image != nil {
-                // only if arraydacell.image is populated add this alert action
+                // only if arraydacell.image is populated add show video and delete video
 
+                // add action for visualization
+                let showVideoAction = UIAlertAction(title: "Show Video", style: .default) { _ in
+                    guard let idx = self.selectedIndexPath?.row else { return }
+                    let selectedDate = self.dayCells[idx].date
+
+                    // find the journal entry for that day
+                    if let journal = self.dataManager.journalVideos.first(where: {
+                           Calendar.current.isDate($0.date,
+                                                   inSameDayAs: selectedDate)
+                    }) {
+                        // build URL to the file in Documents
+                        let docs = FileManager.default.urls(
+                            for: .documentDirectory,
+                               in: .userDomainMask
+                        ).first!
+                        let videoURL = docs.appendingPathComponent(journal.nameVideo)
+
+                        // present AVPlayerViewController
+                        let player = AVPlayer(url: videoURL)
+                        let playerVC = AVPlayerViewController()
+                        playerVC.player = player
+                        playerVC.videoGravity = .resizeAspectFill
+                        self.present(playerVC, animated: true) {
+                            player.play()
+                        }
+                    }
+                }
+                alertController.addAction(showVideoAction)
+                
                 let deleteAction = UIAlertAction(
                     title: "Delete Video", style: .destructive
                 ) { _ in
@@ -367,18 +397,6 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
                 }
 
                 alertController.addAction(deleteAction)
-                
-                // add action for visualization
-//                let showVideoAction = UIAlertAction(
-//                    title: "Show Video", style: .default
-//                ) { _ in
-//                    if let indexSelected = self.selectedIndexPath?.row {
-////                        let urlVideo = self.arrayDayCell[indexSelected].
-//                        self.performSegue(withIdentifier: "showVideo", sender: urlVideo)
-//                    }
-//                }
-//                alertController.addAction(showVideoAction)
-
             }
 
             let cancelAction = UIAlertAction(

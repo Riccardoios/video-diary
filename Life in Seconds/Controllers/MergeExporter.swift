@@ -3,9 +3,9 @@
 import Foundation
 import AVKit
 
-class MergeExport {
+class MergeExporter {
     
-    static let shared = MergeExport()
+    static let shared = MergeExporter()
     
     var exportUrl: URL? //output
     var previewUrl: URL?

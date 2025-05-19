@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3A0E920D27908EEA00E4606A /* MergingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3A0E920C27908EEA00E4606A /* MergingButton.xib */; };
 		3A0E920F27908F1B00E4606A /* MergingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A0E920E27908F1B00E4606A /* MergingButton.swift */; };
-		3A1F2865279024CB00B2EA5D /* MergeExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F2864279024CB00B2EA5D /* MergeExport.swift */; };
+		3A1F2865279024CB00B2EA5D /* MergeExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A1F2864279024CB00B2EA5D /* MergeExporter.swift */; };
 		3A1F28672790345300B2EA5D /* Notes.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 3A1F28662790345300B2EA5D /* Notes.rtf */; };
 		3A604D84278087BC006BE8DD /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A604D83278087BC006BE8DD /* DayCell.swift */; };
 		3A604D86278087ED006BE8DD /* JournalVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A604D85278087ED006BE8DD /* JournalVideo.swift */; };
@@ -26,13 +26,13 @@
 		3A99F547278C6F140022817A /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99F546278C6F140022817A /* AppUtility.swift */; };
 		3A99F56D278DD5E90022817A /* MovieTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99F56C278DD5E90022817A /* MovieTableVC.swift */; };
 		3A99F56F278DDAF60022817A /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A99F56E278DDAF60022817A /* TableCell.swift */; };
-		3AFC9B2E2789C9BC0066D8E5 /* MyDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */; };
+		3AFC9B2E2789C9BC0066D8E5 /* JournalVideoManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AFC9B2D2789C9BC0066D8E5 /* JournalVideoManger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3A0E920C27908EEA00E4606A /* MergingButton.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MergingButton.xib; sourceTree = "<group>"; };
 		3A0E920E27908F1B00E4606A /* MergingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MergingButton.swift; sourceTree = "<group>"; };
-		3A1F2864279024CB00B2EA5D /* MergeExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MergeExport.swift; sourceTree = "<group>"; };
+		3A1F2864279024CB00B2EA5D /* MergeExporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MergeExporter.swift; sourceTree = "<group>"; };
 		3A1F28662790345300B2EA5D /* Notes.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = Notes.rtf; path = "Life in Seconds/Notes.rtf"; sourceTree = SOURCE_ROOT; };
 		3A604D83278087BC006BE8DD /* DayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayCell.swift; sourceTree = "<group>"; };
 		3A604D85278087ED006BE8DD /* JournalVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalVideo.swift; sourceTree = "<group>"; };
@@ -51,7 +51,7 @@
 		3A99F546278C6F140022817A /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		3A99F56C278DD5E90022817A /* MovieTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableVC.swift; sourceTree = "<group>"; };
 		3A99F56E278DDAF60022817A /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
-		3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyDataManager.swift; sourceTree = "<group>"; };
+		3AFC9B2D2789C9BC0066D8E5 /* JournalVideoManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JournalVideoManger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +141,8 @@
 			children = (
 				3A7129A727736AD000DCE4D5 /* HomeVC.swift */,
 				3A99F56C278DD5E90022817A /* MovieTableVC.swift */,
-				3AFC9B2D2789C9BC0066D8E5 /* MyDataManager.swift */,
-				3A1F2864279024CB00B2EA5D /* MergeExport.swift */,
+				3AFC9B2D2789C9BC0066D8E5 /* JournalVideoManger.swift */,
+				3A1F2864279024CB00B2EA5D /* MergeExporter.swift */,
 				3A7129B727736C9C00DCE4D5 /* VideoHelper.swift */,
 				3A99F546278C6F140022817A /* AppUtility.swift */,
 			);
@@ -228,10 +228,10 @@
 				3A604D84278087BC006BE8DD /* DayCell.swift in Sources */,
 				3A99F56F278DDAF60022817A /* TableCell.swift in Sources */,
 				3A99F547278C6F140022817A /* AppUtility.swift in Sources */,
-				3AFC9B2E2789C9BC0066D8E5 /* MyDataManager.swift in Sources */,
+				3AFC9B2E2789C9BC0066D8E5 /* JournalVideoManger.swift in Sources */,
 				3A8AD5FD277B25ED005E4BEA /* MyCell.swift in Sources */,
 				3A7129A627736AD000DCE4D5 /* SceneDelegate.swift in Sources */,
-				3A1F2865279024CB00B2EA5D /* MergeExport.swift in Sources */,
+				3A1F2865279024CB00B2EA5D /* MergeExporter.swift in Sources */,
 				3A604D86278087ED006BE8DD /* JournalVideo.swift in Sources */,
 				3A7129C02774D7EB00DCE4D5 /* CalendarPickerFooterView.swift in Sources */,
 				3A7129C32774D7EB00DCE4D5 /* CalendarPickerHeaderView.swift in Sources */,

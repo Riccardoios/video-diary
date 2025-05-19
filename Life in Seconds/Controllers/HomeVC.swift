@@ -25,14 +25,14 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
 
     var selectedIndexPath: IndexPath?
 
-    var baseDate: Date = Date()
+    var today: Date = Date()
 
     var arrSelection: [Int] = []
 
     //objects
     let dataManager = JournalVideoManger.shared
     let videoHelper = VideoHelper()
-    let merger = MergeExport.shared
+    let merger = MergeExporter.shared
 
     var dayCells: [DayCell] = [DayCell]()
 
@@ -40,20 +40,20 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         didTapLastMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
 
-            self.baseDate =
+            self.today =
                 self.calendar.date(
                     byAdding: .month,
                     value: -1,
-                    to: self.baseDate
-                ) ?? self.baseDate
+                    to: self.today
+                ) ?? self.today
 
             self.dayCells = [DayCell]()
             self.selectedIndexPath = nil
-            self.getCurrentMonthArray(of: self.baseDate)
+            self.getCurrentMonthArray(of: self.today)
             self.getImageInArrayDayCell()
             //            self.addOffsetPreviuosMonth()
 
-            self.headerView.baseDate = self.baseDate
+            self.headerView.baseDate = self.today
 
             self.collectionView.reloadData()
 
@@ -61,21 +61,21 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         didTapNextMonthCompletionHandler: { [weak self] in
             guard let self = self else { return }
 
-            self.baseDate =
+            self.today =
                 self.calendar.date(
                     byAdding: .month,
                     value: 1,
-                    to: self.baseDate
-                ) ?? self.baseDate
+                    to: self.today
+                ) ?? self.today
 
             self.dayCells = [DayCell]()
             self.selectedIndexPath = nil
 
-            self.getCurrentMonthArray(of: self.baseDate)
+            self.getCurrentMonthArray(of: self.today)
             self.getImageInArrayDayCell()
             //            self.addOffsetPreviuosMonth()
 
-            self.headerView.baseDate = self.baseDate
+            self.headerView.baseDate = self.today
 
             self.collectionView.reloadData()
         }
@@ -94,7 +94,7 @@ class HomeVC: UIViewController, UICollectionViewDelegate {
         view.addSubview(headerView)
         view.addSubview(footerView)
 
-        headerView.baseDate = baseDate
+        headerView.baseDate = today
 
         loadTheData()
 
@@ -289,7 +289,7 @@ extension HomeVC: UICollectionViewDelegateFlowLayout {
             reloadIndexPaths.append(deselectIndexPath)
         }
 
-        baseDate = dayCells[indexPath.row].date
+        today = dayCells[indexPath.row].date
 
         selectedIndexPath = indexPath
 
@@ -418,7 +418,7 @@ extension HomeVC {
 
         dayCells = [DayCell]()
 
-        getCurrentMonthArray(of: baseDate)
+        getCurrentMonthArray(of: today)
         getImageInArrayDayCell()
         //addOffsetPreviuosMonth()
         //getTodaySelected()
@@ -546,7 +546,7 @@ extension HomeVC: UIImagePickerControllerDelegate {
         if selectedIndexPath != nil {
 
             //save video in file manager and the new url in the array
-            dataManager.saveVideoInDocuments(url: url, date: baseDate)
+            dataManager.saveVideoInDocuments(url: url, date: today)
 
         }
 
@@ -607,7 +607,7 @@ extension HomeVC {
             headerView.mergingButton.icon.isHidden = true
             headerView.mergingButton.wheel.startAnimating()
 
-            headerView.baseDate = baseDate
+            headerView.baseDate = today
 
             guard
                 let urls = dataManager.getUrlsVideo(

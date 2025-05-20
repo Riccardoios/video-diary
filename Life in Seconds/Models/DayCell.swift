@@ -8,7 +8,6 @@
 import UIKit
 
 struct DayCell {
-    
     var date: Date
     var day: String
     var weekDay: String
@@ -24,20 +23,29 @@ struct DayCell {
         self.isSelected = false
         self.isGrayedout = false
         
-        let dF = DateFormatter()
-        dF.timeZone = TimeZone(abbreviation: "GMT+0:00")
+        // day-of-month ("1", "2", ..., "31")
+        let dateFormatter = DateFormatter()
+        let calendar = Calendar(identifier: .gregorian)
+        dateFormatter.calendar = calendar
+        dateFormatter.locale   = Locale.current
+        dateFormatter.dateFormat = "dd"
+        self.day = dateFormatter.string(from: date)
+
+        // abbreviated weekday ("Mon", "Tue", etc.), correctly indexed
+        let weekdayFormatter = DateFormatter()
+        weekdayFormatter.calendar = calendar
+        weekdayFormatter.locale   = Locale.current
+        // use the standalone symbols so you don’t get context-dependent forms
+        let symbols = weekdayFormatter.shortStandaloneWeekdaySymbols
+        // Calendar.weekday is 1 for Sunday … 7 for Saturday, so subtract 1
+        let weekdayIndex = calendar.component(.weekday, from: date) - 1
+        self.weekDay = symbols?[weekdayIndex] ?? ""
         
-        dF.dateFormat = "dd"
-        self.day = dF.string(from: date) + " "
+        dateFormatter.dateFormat = "MMMM"
+        self.month = dateFormatter.string(from: date)
         
-        let weekDay = dF.shortWeekdaySymbols[Calendar.current.component(.weekday, from: date) - 1]
-        self.weekDay = weekDay
-        
-        dF.dateFormat = "MMMM"
-        self.month = dF.string(from: date)
-        
-        dF.dateFormat = "yyyy"
-        self.year = dF.string(from: date)
+        dateFormatter.dateFormat = "yyyy"
+        self.year = dateFormatter.string(from: date)
  }
      
 }

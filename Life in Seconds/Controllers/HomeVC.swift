@@ -428,9 +428,7 @@ extension HomeVC {
     func getCurrentMonthArray(of dateInput: Date) {
 
         //get number of days in the month
-        guard
-
-            let numberOfDaysInMonth = calendar.range(
+        guard let numberOfDaysInMonth = calendar.range(
                 of: .day,
                 in: .month,
                 for: dateInput)?.count,
